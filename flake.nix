@@ -38,6 +38,7 @@
         modules = [
           ./hosts/core/configuration.nix
           ./hosts/pango/configuration.nix
+          ./hosts/optional/grub-configration.nix
           ./hosts/optional/nfs-mounts-configuration.nix
           ./hosts/optional/lxd-configuration.nix
         ];
