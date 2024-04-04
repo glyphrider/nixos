@@ -40,6 +40,7 @@
           ./hosts/pango/configuration.nix
           ./hosts/optional/nfs-mounts-configuration.nix
           ./hosts/optional/lxd-configuration.nix
+        ];
       };
     };
     homeConfigurations."brian" = home-manager.lib.homeManagerConfiguration {
