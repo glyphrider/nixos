@@ -135,6 +135,7 @@
     efibootmgr
     gh
     gitFull
+    home-manager
     just
     nfs-utils
     pinentry-curses
