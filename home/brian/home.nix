@@ -374,7 +374,9 @@
   
       battery = {
         format = "{icon}";
-	      format-icons = [ "" "" "" "" "" ];
+        format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" ];
+        format-full = "󱟢";
+        format-charging = "󰂄";
       };
   
       temperature = {
