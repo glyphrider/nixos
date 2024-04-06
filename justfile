@@ -1,3 +1,5 @@
+set positional-arguments
+
 default:
   @just --list
 
@@ -9,3 +11,10 @@ boot:
 
 home:
   @home-manager switch --flake .#`whoami`@`hostname`
+
+install host: generate
+  @cp -v /mnt/etc/nixos/hardware-configuration.nix hosts/$1/
+  @nixos-install --flake .#$1
+
+generate:
+  @nixos-generate-config --root /mnt
