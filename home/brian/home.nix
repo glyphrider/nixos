@@ -168,7 +168,7 @@
     settings = {
       "$mod" = "SUPER";
 
-      monitor = ",preferred,auto,1.0";
+      # monitor = ",preferred,auto,1.0";
 
       "plugin:borders-plus-plus" = {
         add_borders = 1;

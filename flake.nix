@@ -44,12 +44,19 @@
         ];
       };
     };
-    homeConfigurations."brian" = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations."brian@beast" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = {
         inherit inputs;
       };
-      modules = [ ./home/brian/home.nix ];
+      modules = [ ./home/brian/home.nix ./home/brian/beast.nix ];
+    };
+    homeConfigurations."brian@pango" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      extraSpecialArgs = {
+        inherit inputs;
+      };
+      modules = [ ./home/brian/home.nix ./home/brian/pango.nix ];
     };
   };
 }
