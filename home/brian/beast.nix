@@ -2,7 +2,7 @@
 {
   wayland.windowManager.hyprland.settings = {
     monitor = [
-      ",preferred,auto,1.0";
+      ",preferred,auto,1.0"
     ];
   };
 }

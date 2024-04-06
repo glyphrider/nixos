@@ -135,6 +135,7 @@
     efibootmgr
     gh
     gitFull
+    just
     nfs-utils
     pinentry-curses
     prometheus
