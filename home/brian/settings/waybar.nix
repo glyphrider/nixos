@@ -1,5 +1,7 @@
 { config, pkgs, inputs, ... }:
 {
+  wayland.windowManager.hyprland.settings.exec-once = [ "${pkgs.waybar}/bin/waybar" ];
+
   programs.waybar = {
     settings = [{
       layer = "top";

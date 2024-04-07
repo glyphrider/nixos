@@ -1,6 +1,7 @@
 { config, pkgs, inputs, ... }:
 {
-      programs.gh = {
+  home.packages = [ pkgs.gh ];
+  programs.gh = {
     enable = true;
     gitCredentialHelper = {
       enable = true;

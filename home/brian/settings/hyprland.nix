@@ -2,6 +2,8 @@
 {
   imports = [
     ../../optional/dunst.nix
+    ../../optional/kitty.nix
+    ../../optional/nerdfonts.nix
     ../../optional/swaylock.nix
     ../../optional/waybar.nix
     ../../optional/wofi.nix
@@ -122,7 +124,6 @@
       ];
 
       bind = [
-        "$mod, Return, exec, kitty"
         "$mod, C, killactive,"
         "$mod, Q, exit"
         "$mod, L, exec, swaylock"
@@ -157,13 +158,6 @@
             )
             10)
         );
-
-      exec-once = [
-        "${pkgs.waybar}/bin/waybar"
-        "${pkgs.blueman}/bin/blueman-applet"
-        "${pkgs.networkmanagerapplet}/bin/nm-applet"
-        "${pkgs.swww}/bin/swww init"
-        ];
     };
   };
 }

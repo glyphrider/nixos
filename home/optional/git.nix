@@ -1,4 +1,5 @@
 { config, pkgs, inputs, ... }:
 {
-    programs.git.enable = true;
+  home.packages = [ pkgs.git ];
+  programs.git.enable = true;
 }
