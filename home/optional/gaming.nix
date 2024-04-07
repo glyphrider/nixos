@@ -5,3 +5,4 @@
     pkgs.steam
     pkgs.wineWowPackages.stable
   ];
+}
