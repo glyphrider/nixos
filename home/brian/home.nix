@@ -16,6 +16,7 @@
     ../optional/emacs.nix
     ../optional/eza.nix
     ../optional/fzf.nix
+    ../optional/gaming.nix
     ../optional/git.nix
     ../optional/gh.nix
     ../optional/hyprland.nix
