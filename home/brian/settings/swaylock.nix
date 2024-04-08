@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 {
   wayland.windowManager.hyprland.settings.bind = [
-    "$mod, L, exec, ${pkgs.swaylock}/bin/swaylock"
+    "$mod, L, exec, ${pkgs.swaylock-effects}/bin/swaylock"
   ];
   programs.swaylock = {
     package = pkgs.swaylock-effects;
