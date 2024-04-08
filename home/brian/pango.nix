@@ -7,7 +7,7 @@
       "HDMI-A-1,2560x1440@60,0x0,1.0"
     ];
     exec-once = [
-      "${pkgs.networkmanagerappet}/bin/nm-applet"
+      "${pkgs.networkmanagerapplet}/bin/nm-applet"
     ];
   };
 }
