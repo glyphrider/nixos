@@ -1,5 +1,8 @@
 { config, pkgs, inputs, ... }:
 {
+  wayland.windowManager.hyprland.settings.bind = [
+    "$mod, R, exec, ${pkgs.wofi}/bin/wofi --show drun"
+  ];
   programs.wofi = {
     settings = {
       width = 600;

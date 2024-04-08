@@ -126,10 +126,8 @@
       bind = [
         "$mod, C, killactive,"
         "$mod, Q, exit"
-        "$mod, L, exec, swaylock"
-        "$mod, E, exec, thunar"
+        "$mod, E, exec, ${pkgs.xfce.thunar}/bin/thunar"
         "$mod, V, togglefloating,"
-        "$mod, R, exec, wofi --show drun"
         "$mod, P, pseudo, # dwindle"
         "$mod, J, togglesplit, # dwindle"
         "$mod SHIFT, F, fullscreen"
