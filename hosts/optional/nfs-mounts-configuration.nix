@@ -20,11 +20,11 @@
       what = "nas:/mnt/tank/media/television";
       where = "/srv/nfs/nas/media/television";
     } {
-      type = "nfs";
-      mountConfig.options = "noatime";
-      what = "nas:/mnt/tank/iso";
-      where = "/srv/nfs/nas/iso";
-    } {
+#      type = "nfs";
+#      mountConfig.options = "noatime";
+#      what = "nas:/mnt/tank/iso";
+#      where = "/srv/nfs/nas/iso";
+#    } {
       type = "nfs";
       mountConfig.options = "noatime";
       what = "nas:/mnt/tank/archive";
