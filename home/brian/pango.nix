@@ -8,5 +8,6 @@
     ];
     exec-once = [
       "${pkgs.networkmanagerappet}/bin/nm-applet"
+    ];
   };
 }
