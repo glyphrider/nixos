@@ -18,7 +18,6 @@
     lollypop
     neofetch
     obs-studio
-    pavucontrol # pipewire -> pulseaudio
     rebar3 # build tool for erlang; needed for erlang-ls in neovim
     rustup # used to install a version of rust
     slurp

@@ -1,6 +1,9 @@
 { config, pkgs, inputs, ... }:
 {
+  # programs.waybar.package = inputs.hyprland.pkgs.${pkgs.system}.waybar-hyprland;
   wayland.windowManager.hyprland.settings.exec-once = [ "${pkgs.waybar}/bin/waybar" ];
+
+  home.packages = [ pkgs.pavucontrol ];
 
   programs.waybar = {
     settings = [{
@@ -71,6 +74,7 @@
       pulseaudio = {
         format-icons = [ "󰕿" "󰖀" "󰕾" ];
         format = "{icon} {volume}%";
+        on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
       };
   
       clock = {

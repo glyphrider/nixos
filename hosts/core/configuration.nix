@@ -39,16 +39,6 @@
     # desktopManager.gnome.enable = true;
   };
 
-  programs.steam.enable = true;
-
-  programs.hyprland = {
-    enable = true;
-    # package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-    xwayland.enable = true;
-    # portalPackage = inputs.hyprland.packages."${pkgs.system}".xdg-desktop-portal-hyprland;
-  };
-  xdg.portal.enable = true;
-
   fonts.packages = with pkgs; [
     nerdfonts
   ];

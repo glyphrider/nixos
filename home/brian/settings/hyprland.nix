@@ -1,6 +1,8 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
+    inputs.hyprland.homeManagerModules.default
+
     ../../optional/dunst.nix
     ../../optional/kitty.nix
     ../../optional/nerdfonts.nix
@@ -9,6 +11,8 @@
     ../../optional/wofi.nix
   ];
 
+  xdg.portal.configPackages = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
+  xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
   wayland.windowManager.hyprland = {
     package = inputs.hyprland.packages."${pkgs.system}".hyprland;
     plugins = [
