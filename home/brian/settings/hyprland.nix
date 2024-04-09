@@ -11,6 +11,9 @@
     ../../optional/wofi.nix
   ];
 
+  home.packages = [
+    pkgs.wl-clipboard
+  ];
   xdg.portal.configPackages = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
   xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
   wayland.windowManager.hyprland = {
