@@ -31,6 +31,7 @@
           ./hosts/optional/zfs-grub-configuration.nix
           ./hosts/optional/nfs-mounts-configuration.nix
           ./hosts/optional/libvirtd-configuration.nix
+          ./hosts/optional/incus-configuration.nix
         ];
       };
       pango = nixpkgs.lib.nixosSystem {
@@ -40,7 +41,7 @@
           ./hosts/pango/configuration.nix
           ./hosts/optional/grub-configuration.nix
           ./hosts/optional/nfs-mounts-configuration.nix
-          ./hosts/optional/lxd-configuration.nix
+          ./hosts/optional/incus-configuration.nix
         ];
       };
     };
