@@ -1,13 +1,4 @@
-echo "enter luks passphrase"
-read passphrase
-
-parted /dev/nvme0n1 -- mktable gpt
-parted /dev/nvme0n1 -- mkpart fat32 1M 512M
-parted /dev/nvme0n1 -- set 1 esp on
-parted /dev/nvme0n1 -- mkpart linux 512M 100%
-
-echo $passphrase | cryptsetup luksFormat /dev/nvme0n1p2
-echo $passphrase | cryptsetup open /dev/nvme0n1p2 nixos
+#!/usr/bin/env bash
 
 mkfs.fat -F 32 /dev/nvme0n1p1
 
