@@ -27,6 +27,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/core/configuration.nix
+          ./hosts/core/graphical-core-configuration.nix
           ./hosts/beast/configuration.nix
           ./hosts/optional/zfs-grub-configuration.nix
           ./hosts/optional/nfs-mounts-configuration.nix
@@ -38,6 +39,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/core/configuration.nix
+          ./hosts/core/graphical-core-configuration.nix
           ./hosts/pango/configuration.nix
           ./hosts/optional/grub-configuration.nix
           ./hosts/optional/nfs-mounts-configuration.nix
