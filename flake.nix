@@ -44,6 +44,15 @@
           ./hosts/optional/incus-configuration.nix
         ];
       };
+      zcore = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/core/configuration.nix
+          ./hosts/zcore/configuration.nix
+          ./hosts/optional/grub-configuration.nix
+          ./hosts/optional/incus-configuration.nix
+        ];
+      };
     };
     homeConfigurations."brian@beast" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
