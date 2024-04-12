@@ -70,5 +70,11 @@
       };
       modules = [ ./home/brian/home.nix ./home/brian/pango.nix ];
     };
+    homeConfigurations."brian@zcore" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      extraSpecialArgs = {
+        inherit inputs;
+      };
+      modules = [ ./home/brian/homx.nix ];
   };
 }
