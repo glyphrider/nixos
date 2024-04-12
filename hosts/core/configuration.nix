@@ -78,11 +78,13 @@
 
   environment.systemPackages = with pkgs; [
     efibootmgr
+    file
     gh
     gitFull
     home-manager
     just
     nfs-utils
+    openssl
     pinentry-curses
     prometheus
     vim
