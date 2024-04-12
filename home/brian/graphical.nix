@@ -2,6 +2,8 @@
 
 {
   imports = [
+    ./graphical-packages.nix
+
     ../optional/bitwarden.nix
     ../optional/blueman.nix
     ../optional/cmdline-utils.nix
