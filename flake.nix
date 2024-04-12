@@ -75,6 +75,7 @@
       extraSpecialArgs = {
         inherit inputs;
       };
-      modules = [ ./home/brian/homx.nix ];
+      modules = [ ./home/brian/home.nix ];
+    };
   };
 }
