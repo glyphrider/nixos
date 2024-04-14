@@ -24,28 +24,28 @@
         netdevConfig = {
           Name = "br0";
           Kind = "bridge";
-#          MACAddress = "B6:86:EA:F0:DE:2E";
+          MACAddress = "56:23:b1:2d:4d:80";
         };
       };
     };
     networks = {
       "20-br0-bind" = {
-        matchConfig.Name = "enp39s0";
+        matchConfig.Name = "enp0s25";
         networkConfig.Bridge = "br0";
       };
       "30-br0-ip" = {
         matchConfig.Name = "br0";
-        address = [ "192.168.47.250/24" ];
-        routes = [ { routeConfig.Gateway = "192.168.47.1"; } ];
-#        networkConfig = {
-#          DHCP = "ipv4";
-#          IPForward = "yes";
-#          MulticastDNS = "yes";
-#        };
-#        dhcpV4Config = {
-#          UseDNS = "yes";
-#          UseDomains = "yes";
-#        };
+#        address = [ "192.168.47.250/24" ];
+#        routes = [ { routeConfig.Gateway = "192.168.47.1"; } ];
+        networkConfig = {
+          DHCP = "ipv4";
+          IPForward = "yes";
+          MulticastDNS = "yes";
+        };
+        dhcpV4Config = {
+          UseDNS = "yes";
+          UseDomains = "yes";
+        };
       };
     };
   };

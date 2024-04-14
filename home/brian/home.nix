@@ -11,6 +11,9 @@
     ./settings/home.nix
 
     ../common/home.nix
+
+    ../optional/git.nix
+    ../optional/gh.nix
   ];
 
   home.activation.ssh-dir = ''
