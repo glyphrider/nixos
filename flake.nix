@@ -33,6 +33,7 @@
           ./hosts/optional/nfs-mounts-configuration.nix
           ./hosts/optional/libvirtd-configuration.nix
           ./hosts/optional/incus-configuration.nix
+          ./hosts/optional/obs-configuration.nix
         ];
       };
       pango = nixpkgs.lib.nixosSystem {
