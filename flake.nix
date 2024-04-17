@@ -54,6 +54,7 @@
           ./hosts/zcore/configuration.nix
           ./hosts/optional/grub-configuration.nix
           ./hosts/optional/incus-configuration.nix
+          ./hsots/optional/podman-configuration.nix
         ];
       };
     };
