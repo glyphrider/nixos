@@ -1,5 +1,6 @@
 { config, pkgs, inputs, ... }:
 {
+  imports = [ ./settings/graphical.nix ./graphical.nix ];
   home.packages = [ pkgs.networkmanagerapplet ];
   wayland.windowManager.hyprland.settings = {
     monitor = [

@@ -11,7 +11,10 @@
     };
     initExtra = ''
       source ~/.p10k.zsh
-      '';
+    '';
+    sessionVariables = {
+      GSETTIGNS_BACKEND = "keyfile";
+    };
   };
   home.file.".p10k.zsh".source = ./p10k.zsh;
 }

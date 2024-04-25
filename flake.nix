@@ -27,21 +27,34 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/core/configuration.nix
+          ./hosts/core/graphical-core-configuration.nix
           ./hosts/beast/configuration.nix
           ./hosts/optional/zfs-grub-configuration.nix
           ./hosts/optional/nfs-mounts-configuration.nix
           ./hosts/optional/libvirtd-configuration.nix
           ./hosts/optional/incus-configuration.nix
+          ./hosts/optional/obs-configuration.nix
         ];
       };
       pango = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/core/configuration.nix
+          ./hosts/core/graphical-core-configuration.nix
           ./hosts/pango/configuration.nix
           ./hosts/optional/grub-configuration.nix
           ./hosts/optional/nfs-mounts-configuration.nix
           ./hosts/optional/incus-configuration.nix
+        ];
+      };
+      zcore = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/core/configuration.nix
+          ./hosts/zcore/configuration.nix
+          ./hosts/optional/grub-configuration.nix
+          ./hosts/optional/incus-configuration.nix
+          ./hosts/optional/podman-configuration.nix
         ];
       };
     };
@@ -58,6 +71,13 @@
         inherit inputs;
       };
       modules = [ ./home/brian/home.nix ./home/brian/pango.nix ];
+    };
+    homeConfigurations."brian@zcore" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      extraSpecialArgs = {
+        inherit inputs;
+      };
+      modules = [ ./home/brian/home.nix ];
     };
   };
 }

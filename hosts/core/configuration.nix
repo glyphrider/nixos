@@ -31,18 +31,6 @@
     # useXkbConfig = true; # use xkb.options in tty.
   };
 
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    displayManager.startx.enable = true;
-    # displayManager.gdm.enable = true;
-    # desktopManager.gnome.enable = true;
-  };
-
-  fonts.packages = with pkgs; [
-    nerdfonts
-  ];
-
   security.polkit.enable = true;
 
   security.sudo = {
@@ -53,24 +41,6 @@
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  services.printing.enable = true;
-
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-
-  services.blueman.enable = true;
-
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  services.pipewire = {
-    enable = true;
-    alsa = {
-      enable =true;
-      support32Bit = true;
-    };
-    pulse.enable = true;
-  };
 
   services.pcscd.enable = true;
   services.udev.packages = with pkgs; [
@@ -90,35 +60,14 @@
 
   security.rtkit.enable = true;
 
-  programs.thunar = {
-    enable = true;
-    plugins = with pkgs.xfce; [
-      thunar-volman
-      thunar-archive-plugin
-    ];
-  };
-  programs.xfconf.enable = true;
-
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
-
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
   programs.wireshark.enable = true;
 
-  programs.adb.enable = true;
-
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
-    # config.credential.helper = "libsecret";
-  };
-
-  security.pam.services.swaylock = {
-    text = ''
-      auth include login
-    '';
   };
 
   services.prometheus.exporters.node = {
@@ -129,11 +78,13 @@
 
   environment.systemPackages = with pkgs; [
     efibootmgr
+    file
     gh
     gitFull
     home-manager
     just
     nfs-utils
+    openssl
     pinentry-curses
     prometheus
     vim
