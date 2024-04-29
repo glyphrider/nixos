@@ -9,7 +9,7 @@
     home = "/home/brian";
     shell = pkgs.bash;
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "kvm" "input" "disk" "libvirtd" "qemu-libvirtd" "lxd" "incus-admin" "wireshark" "adbusers" "networkmanager" "tty" ];
+    extraGroups = [ "wheel" "video" "kvm" "input" "disk" "docker" "libvirtd" "qemu-libvirtd" "lxd" "incus-admin" "wireshark" "adbusers" "networkmanager" "tty" ];
     packages = with pkgs; [
     ];
   };

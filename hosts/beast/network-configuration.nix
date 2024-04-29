@@ -45,6 +45,7 @@
     networks = {
       "20-br0-bind" = {
         matchConfig.Name = "enp38s0";
+        # matchConfig.MACAddress = "00:d8:61:a6:97:17";
         networkConfig.Bridge = "br0";
       };
       "30-br0-ip" = {
