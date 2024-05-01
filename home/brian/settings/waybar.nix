@@ -96,7 +96,7 @@
       window#waybar {
         padding: 2px;
         background: rgba(0,0,0,0.0);
-        color: #00ff00;
+        color: #50a2af;
         margin: 2px 5px;
         border-radius: 5px;
         padding: 1px 5px;
@@ -117,25 +117,26 @@
       
       #workspaces button {
           padding: 1px 5px;
-          color: #00ff00;
+          color: #50a2af;
           margin: 2px 5px;
       }
       
       #workspaces button.active {
-          color: #000000;
-          background: #00ff00;
+          color: #ffffff;
+          background: #2a6d95;
           border-radius: 10px;
       }
       
       #workspaces button:hover {
-          background: #40ff40;
-          color: #00d000;
+          background: #50a2af;
+          color: #000000;
           border-radius: 5px;
       }
       
       #window,
       #clock,
       #battery,
+      #pulseaudio,
       #tray,
       #temperature,
       #workspaces,

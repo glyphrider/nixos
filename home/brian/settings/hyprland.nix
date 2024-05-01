@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
-    inputs.hyprland.homeManagerModules.default
+#    inputs.hyprland.homeManagerModules.default
 
     ../../optional/dunst.nix
     ../../optional/kitty.nix
@@ -14,13 +14,16 @@
   home.packages = [
     pkgs.wl-clipboard
   ];
-  xdg.portal.configPackages = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
-  xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
+#  xdg.portal.configPackages = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
+#  xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
+#  xdg.portal.extraPortals = [ pkgs.hyprland ];
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  xdg.portal.configPackages = [ pkgs.xdg-desktop-portal-hyprland ];
   wayland.windowManager.hyprland = {
-    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-    plugins = [
-      inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
-    ];
+#    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+#    plugins = [
+#      inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
+#    ];
     settings = {
       "$mod" = "SUPER";
 
