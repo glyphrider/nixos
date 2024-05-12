@@ -21,6 +21,7 @@
     '';
   home.sessionVariables = {
     EDITOR = "vim";
+    GSETTINGS_BACKEND = "keyfile";
   };
   programs.home-manager.enable = true;
 }
