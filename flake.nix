@@ -79,7 +79,7 @@
       extraSpecialArgs = {
         inherit inputs;
       };
-      modules = [ ./home/brian/home.nix ./home/brian/pango.nix ];
+      modules = [ ./home/brian/home.nix ./home/brian/pango.nix ./home/optional/vscode.nix ];
     };
     homeConfigurations."brian@zcore" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
