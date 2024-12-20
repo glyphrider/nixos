@@ -9,12 +9,13 @@
   services.xserver = {
     enable = true;
     displayManager.startx.enable = true;
-    # displayManager.gdm.enable = true;
-    # desktopManager.gnome.enable = true;
   };
 
-  fonts.packages = with pkgs; [
-    nerdfonts
+  fonts.packages = with pkgs.nerd-fonts; [
+    arimo
+    hack
+    fira-code
+    noto
   ];
 
   security.polkit.enable = true;
@@ -26,7 +27,6 @@
 
   services.blueman.enable = true;
 
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;

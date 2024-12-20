@@ -14,16 +14,16 @@
   home.packages = [
     pkgs.wl-clipboard
   ];
-#  xdg.portal.configPackages = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
-#  xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
-#  xdg.portal.extraPortals = [ pkgs.hyprland ];
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
-  xdg.portal.configPackages = [ pkgs.xdg-desktop-portal-hyprland ];
+  xdg.portal.configPackages = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
+  xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.hyprland ];
+  #xdg.portal.extraPortals = [ pkgs.hyprland ];
+  #xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  #xdg.portal.configPackages = [ pkgs.xdg-desktop-portal-hyprland ];
   wayland.windowManager.hyprland = {
-#    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-#    plugins = [
-#      inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
-#    ];
+    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    plugins = [
+      inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
+    ];
     settings = {
       "$mod" = "SUPER";
 
@@ -73,10 +73,10 @@
           vibrancy = "0.1696";
         };
 
-        drop_shadow = "true";
-        shadow_range = "4";
-        shadow_render_power = "3";
-        "col.shadow" = "rgba(1a1a1aee)";
+        #drop_shadow = "true";
+        #shadow_range = "4";
+        #shadow_render_power = "3";
+        #"col.shadow" = "rgba(1a1a1aee)";
       };
 
       animations = {
@@ -104,7 +104,7 @@
 
       master = {
         # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-        new_is_master = "true";
+        # new_is_master = "true";
       };
 
       gestures = {

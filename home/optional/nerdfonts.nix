@@ -2,5 +2,10 @@
 {
   imports = [ ./font-config.nix ];
 
-  home.packages = [ pkgs.nerdfonts ];
+  home.packages = with pkgs.nerd-fonts; [
+    arimo
+    hack
+    fira-code
+    noto
+  ];
 }

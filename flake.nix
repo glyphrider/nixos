@@ -7,20 +7,20 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-#    hyprland = {
-#      url = "github:hyprwm/Hyprland";
-#      inputs.nixpkgs.follows = "nixpkgs";
-#    };
-#    hyprland-plugins = {
-#      url = "github:hyprwm/hyprland-plugins";
-#      inputs.hyprland.follows = "hyprland";
-#    };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
-    home-manager #, hyprland, hyprland-plugins
+    home-manager, hyprland, hyprland-plugins
   }@inputs:
   let
     system = "x86_64-linux";
@@ -79,7 +79,7 @@
       extraSpecialArgs = {
         inherit inputs;
       };
-      modules = [ ./home/brian/home.nix ./home/brian/pango.nix ./home/optional/vscode.nix ];
+      modules = [ ./home/brian/home.nix ./home/brian/pango.nix ./home/optional/vscode.nix ./home/optional/hyprland.nix ];
     };
     homeConfigurations."brian@zcore" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
