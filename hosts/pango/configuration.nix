@@ -6,6 +6,7 @@
     ./network-configuration.nix
     ../optional/amd-graphics-driver-configuration.nix
     ../optional/plasma-configuration.nix
+    ../optional/hyprland-configuration.nix
     ../optional/sway-configuration.nix
   ];
 }

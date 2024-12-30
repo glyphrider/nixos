@@ -38,7 +38,6 @@
           ./hosts/optional/libvirtd-configuration.nix
           ./hosts/optional/incus-configuration.nix
           ./hosts/optional/obs-configuration.nix
-          # ./hosts/optional/k3s-configuration.nix
           ./hosts/optional/ollama-configuration.nix
           ./hosts/optional/pandoc-configuration.nix
         ];
@@ -52,7 +51,6 @@
           ./hosts/optional/grub-configuration.nix
           ./hosts/optional/nfs-mounts-configuration.nix
           ./hosts/optional/incus-configuration.nix
-          # ./hosts/optional/k3s-configuration.nix
           ./hosts/optional/pandoc-configuration.nix
         ];
       };

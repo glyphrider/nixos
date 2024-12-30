@@ -6,12 +6,17 @@
 
 {
   boot.initrd.kernelModules = [ "amdgpu" ];
-  hardware.graphics = {
-    enable = true;
-    extraPackages = [ pkgs.amdvlk ];
-    extraPackages32 = [
-      pkgs.driversi686Linux.amdvlk
-    ];
+
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+
+    amdgpu.amdvlk = {
+      enable = true;
+      support32Bit.enable = true;
+    };
   };
 }
 
