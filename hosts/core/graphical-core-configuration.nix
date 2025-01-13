@@ -63,5 +63,9 @@
       auth include login
     '';
   };
+
+  environment.systemPackages = with pkgs; [
+    ghostty
+  ];
 }
 
