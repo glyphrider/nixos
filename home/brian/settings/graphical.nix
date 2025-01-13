@@ -2,6 +2,7 @@
 {
   imports = [
     ./dunst.nix
+    ./ghostty.nix
     ./hyprland.nix
     ./kitty.nix
     ./newsboat.nix
