@@ -9,5 +9,6 @@
     ../optional/hyprland-configuration.nix
     ../optional/sway-configuration.nix
     ../optional/steam-configuration.nix
+    ../optional/libvirtd-configuration.nix
   ];
 }
