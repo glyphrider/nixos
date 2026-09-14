@@ -5,7 +5,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
+    # Pinned before hyprwm/Hyprland#16140 ("workspace: refactor workspace
+    # handling"), which dropped the numeric workspace `id` from hyprctl's
+    # JSON in favor of `address`, breaking waybar's hyprland/workspaces
+    # module (it shows only "0"). Unpin once waybar supports the new
+    # address-based workspace identity.
+    hyprland.url = "github:hyprwm/Hyprland/34eb03bd8da01024596c367fba66485a8c9b8ca7";
     hyprpaper = {
       url = "github:hyprwm/hyprpaper";
       inputs.nixpkgs.follows = "nixpkgs";
