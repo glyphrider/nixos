@@ -25,10 +25,7 @@ let
     ];
   };
 in
-{ imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix ];
-
+{
   nixpkgs.config.allowUnfree = true;
 
   boot.loader.systemd-boot.enable = false;
@@ -50,7 +47,7 @@ in
   };
   boot.kernelParams = [ "quiet" "splash" ];
 
-  networking.hostName = "stealth"; # Define your hostname.
+  # networking.hostName is set per-host in flake.nix's mkHost.
 
   networking.networkmanager.enable = true;
 
@@ -60,12 +57,6 @@ in
     enable = true;
     enable32Bit = true;
   };
-
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-  };
-  services.blueman.enable = true;
 
   services.xserver.videoDrivers = [ "amdgpu" ];
 

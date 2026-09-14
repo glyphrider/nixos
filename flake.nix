@@ -32,24 +32,57 @@
       nur,
       ...
     }@inputs:
+    let
+      # Both hosts share configuration.nix/home.nix almost entirely (same AMD
+      # GPU, same Hyprland desktop); `monitors` is the one piece that varies
+      # enough per physical machine to warrant a parameter rather than a
+      # hosts/<name>/home.nix override. Everything else host-specific lives
+      # under ./hosts/<name>/.
+      mkHost =
+        {
+          hostname,
+          monitors,
+        }:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./configuration.nix
+            ./hosts/${hostname}/hardware-configuration.nix
+            ./hosts/${hostname}/configuration.nix
+            { networking.hostName = hostname; }
+            { nixpkgs.overlays = [ nur.overlays.default ]; }
+            home-manager.nixosModules.default
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.brian = {
+                  imports = [
+                    ./home.nix
+                    ./hosts/${hostname}/home.nix
+                  ];
+                };
+                backupFileExtension = "backup";
+                extraSpecialArgs = { inherit inputs monitors; };
+              };
+            }
+          ];
+        };
+    in
     {
-      nixosConfigurations.stealth = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./configuration.nix
-          { nixpkgs.overlays = [ nur.overlays.default ]; }
-          home-manager.nixosModules.default
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.brian = import ./home.nix;
-              backupFileExtension = "backup";
-              extraSpecialArgs = { inherit inputs; };
-            };
-          }
-        ];
+      nixosConfigurations = {
+        stealth = mkHost {
+          hostname = "stealth";
+          monitors = [
+            "DP-1"
+            "HDMI-A-1"
+          ];
+        };
+        nixie = mkHost {
+          hostname = "nixie";
+          monitors = [ "eDP-1" ];
+        };
       };
     };
 }

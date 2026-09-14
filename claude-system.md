@@ -1,12 +1,13 @@
-# System configuration (configuration.nix, hardware-configuration.nix, flake.nix inputs)
+# System configuration (configuration.nix, hosts/, flake.nix inputs)
 
-Covers the system-level side of the flake: `configuration.nix`, `hardware-configuration.nix`, and the flake inputs that back system services.
+Covers the system-level side of the flake: the shared `configuration.nix`, per-host `hosts/<name>/configuration.nix` and `hosts/<name>/hardware-configuration.nix`, and the flake inputs that back system services.
 
 ## Non-obvious constraints
 
 - **Hyprland is pinned** in `flake.nix` to a specific commit (see the comment above the `hyprland.url` input) because a later Hyprland change (hyprwm/Hyprland#16140) dropped the numeric workspace `id` from hyprctl's JSON in favor of `address`, breaking Waybar's `hyprland/workspaces` module (it shows only "0"). Don't bump this input without first checking whether Waybar's module has been updated to support address-based workspace identity.
 - **`programs.hyprland` here (system) vs. `wayland.windowManager.hyprland` in `home.nix` (home-manager) are both configured, deliberately split**: this module provides the compositor package (`inputs.hyprland.packages.*.hyprland`) and the XDG portal package, while home-manager's module has `package = null` / `portalPackage = null` and only supplies user-level Lua config. Don't let home-manager pull in its own Hyprland package — see @claude-home.md.
-- **NFS mounts** (`nasMount` helper) target NFSv3 specifically — the NAS only exports NFSv3 (confirmed via `rpcinfo -p`); NFSv4 mounts fail with "Protocol not supported". They're automount/idle-unmount (`x-systemd.automount`, `x-systemd.idle-timeout=600`) so boot/login never blocks on the NAS being reachable. Keep that pattern for any new NAS-backed mount.
-- `hardware-configuration.nix` is machine-generated — never hand-edit it; re-run `nixos-generate-config` if the disk layout changes and reconcile manually.
+- **NFS mounts** (`nasMount` helper, shared `configuration.nix`) target NFSv3 specifically — the NAS only exports NFSv3 (confirmed via `rpcinfo -p`); NFSv4 mounts fail with "Protocol not supported". They're automount/idle-unmount (`x-systemd.automount`, `x-systemd.idle-timeout=600`) so boot/login never blocks on the NAS being reachable — that's also what makes it safe to mount from both `stealth` and `nixie` even though only one is guaranteed to be on the home LAN at a given moment. Keep that pattern for any new NAS-backed mount.
+- **`hardware.bluetooth`/`services.blueman.enable` live in `hosts/stealth/configuration.nix`, not the shared file** — they exist specifically to pair the Edifier speakers next to that desktop (see @claude-home.md's `edifier-bluetooth-autoconnect` note). `nixie` has no Bluetooth config at all; don't move this to the shared `configuration.nix` without confirming nixie actually needs Bluetooth for something.
+- `hosts/<name>/hardware-configuration.nix` is machine-generated — never hand-edit it; re-run `nixos-generate-config` if the disk layout changes and reconcile manually. The two hosts' disk layouts are unrelated (stealth: plain btrfs on one disk; nixie: LUKS-encrypted btrfs with a separate `/boot`), so don't try to unify them.
 - `system.stateVersion` (`"25.11"`) should not be bumped without deliberately intending a NixOS release migration.
-- The NAS IP (`192.168.1.4`) is specific to this physical network — don't genericize it.
+- The NAS IP (`192.168.1.4`) is specific to this physical network, and `initialHashedPassword` (shared `configuration.nix`) is the same on both hosts intentionally — don't genericize either without asking, but also don't assume every hardcoded value here needs to move to `hosts/<name>/`.
