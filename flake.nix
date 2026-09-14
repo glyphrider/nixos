@@ -17,7 +17,7 @@
     };
     nvim-config = {
       url = "github:glyphrider/kickstart.nvim";
-      flake = false;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nur.url = "github:nix-community/NUR";
   };

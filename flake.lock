@@ -719,13 +719,17 @@
       }
     },
     "nvim-config": {
-      "flake": false,
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1780320768,
-        "narHash": "sha256-Ej4QX1ztPi0yV2pFr+DEpAz6+mknVesUxrZATgFKQy8=",
+        "lastModified": 1789388148,
+        "narHash": "sha256-KRwXyBiODNL+XQOhhMKIW0s8KuprMaphY+u1JHk/4Lk=",
         "owner": "glyphrider",
         "repo": "kickstart.nvim",
-        "rev": "497b3549b1639af890ca27a86fa1b5d2d6a99bfe",
+        "rev": "cd3161c922465855f912daca2d4eb8fc33a0bba8",
         "type": "github"
       },
       "original": {

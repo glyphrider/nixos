@@ -53,9 +53,6 @@ in
     tofi
     tree
     claude-code
-    neovim
-    gcc
-    unzip
     fastfetch
     minicom
     grim
