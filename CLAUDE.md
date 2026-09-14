@@ -22,6 +22,13 @@ A NixOS flake configuration serving two hosts, `stealth` (desktop) and `nixie` (
 - Update all flake inputs: `nix flake update`. Update a single input: `nix flake lock --update-input <name>`.
 - Format Nix files with `nixfmt` or `nixpkgs-fmt` if invoked explicitly; the repo has no enforced formatter/CI, so match the existing style in the file you're editing (2-space indent, attribute sets `{ ... }`).
 
+## Pins to revisit
+
+Two deliberate version pins are working around upstream regressions rather than expressing a real preference for the old version. Check these periodically and drop the pin once the condition is met — don't carry them forward out of habit once they're no longer needed.
+
+- **`hyprland.url`** (`flake.nix`) — pinned to a pre-#16140 commit because that Hyprland change broke Waybar's `hyprland/workspaces` module. Unpin once Waybar supports address-based workspace identity (check for a Waybar release/changelog mentioning it, then bump and test on one host before both).
+- **`linux-firmware`** (`hosts/nixie/configuration.nix` overlay) — pinned to tag `20260810` because `20260910` broke DMCUB firmware load on nixie's Rembrandt/Radeon 680M GPU. Unpin once nixpkgs' `linux-firmware` moves past this regression (check `pkgs.linux-firmware.version` after a `nix flake update`, or watch for a fix/revert upstream) — see @claude-system.md for the full incident.
+
 ## General conventions
 
 - **Comments explain the "why," not the "what."** Several config blocks carry multi-line comments documenting a specific hardware/software quirk that motivated the setting. When editing near these, read the comment first — the setting is almost always compensating for a specific bug, not a stylistic choice — and keep/update the comment if the reasoning changes.
