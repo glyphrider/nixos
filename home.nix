@@ -157,6 +157,7 @@ in
       "fetch" = "nix run nixpkgs#fetch";
       "afetch" = "nix run nixpkgs#afetch";
       "nvtop" = "nix run nixpkgs#nvtopPackages.amd";
+      "pyfa" = "nix run nixpkgs#pyfa";
     };
     syntaxHighlighting = {
       enable = true;
@@ -697,6 +698,15 @@ in
     selection=ffffff1a
     selection-text=ffffffff
     border=ffffffaa
+  '';
+
+  # gpg-agent's SSH support (configuration.nix: programs.gnupg.agent.enableSSHSupport)
+  # only exports SSH_AUTH_SOCK into interactive shells, not into the graphical
+  # session. uwsm sources this file before starting Hyprland and forwards the
+  # variable into the systemd/D-Bus activation environment, so every app
+  # launched in the session (terminals, launchers, etc.) inherits it.
+  xdg.configFile."uwsm/env".text = ''
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
   '';
 
   xdg.configFile."hypr/hyprpaper.conf".text = ''
