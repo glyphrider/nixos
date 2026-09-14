@@ -54,7 +54,6 @@ in
     tree
     claude-code
     fastfetch
-    minicom
     grim
     slurp
     jq
