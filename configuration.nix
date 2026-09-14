@@ -130,6 +130,9 @@ in
     extraGroups = [ "wheel" "video" "input" "audio" "dialout" "networkmanager" ];
     shell = pkgs.zsh;
     linger = true;
+    # Applied only if the account has no password yet, so `passwd` changes
+    # made after first boot survive future rebuilds instead of being reset.
+    initialHashedPassword = "$6$X47Tox8O5qyaLLqF$oSedhd3d4BXr4XnnMdYYtaLrNNC0KlK4Jk5YWWv6cvis5.GDaJ1tZa8hJPQdyAQwuBl9EFGoAzt1Kkoxx/1lS.";
   };
 
   environment.systemPackages = with pkgs; [
