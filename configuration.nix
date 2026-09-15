@@ -63,14 +63,6 @@ in
 
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  # SDDM's Wayland greeter backend only draws on the primary output on
-  # multi-monitor setups (a known, still-open upstream limitation - e.g.
-  # sddm/sddm#1696). The well-tested fix is to fall back to SDDM's X11
-  # backend for the greeter, but that means running Xorg just to show a
-  # login prompt on a system that's otherwise Wayland-only - not worth it
-  # for single- vs both-monitors greeter cosmetics. Living with
-  # primary-monitor-only for now; revisit if/when SDDM's Wayland greeter
-  # gets proper multi-output support.
   services.ollama = {
     enable = true;
     package = pkgs.ollama-vulkan;
@@ -90,13 +82,20 @@ in
   # real monitor-mirroring mode - only "last" (one output) or "extend"
   # (stitches every output into one virtual desktop), which made the
   # greeter stretch across both of stealth's monitors instead of showing on
-  # each. SDDM's Wayland greeter draws a separate fullscreen window per
-  # connected output (see sddm's GreeterApp::addViewForScreen, which
-  # iterates every QGuiApplication screen), so both monitors show the same
-  # login prompt without any per-host monitor config needed. silentSDDM's
-  # bundled "nord" config gives us that look without pulling in KDE Plasma
-  # Frameworks the way most other Nord-styled SDDM themes do - it's plain
-  # Qt6/QML, so its dependency footprint is comparable to plain SDDM itself.
+  # just one. silentSDDM's bundled "nord" config gives us a similar look
+  # without pulling in KDE Plasma Frameworks the way most other Nord-styled
+  # SDDM themes do - it's plain Qt6/QML, so its dependency footprint is
+  # comparable to plain SDDM itself.
+  #
+  # Caveat: SDDM's Wayland greeter backend only draws on the primary output
+  # on multi-monitor setups (a known, still-open upstream limitation - e.g.
+  # sddm/sddm#1696), so on stealth the greeter only appears on one monitor.
+  # The well-tested fix is to fall back to SDDM's X11 backend for the
+  # greeter, but that means running Xorg just to show a login prompt on a
+  # system that's otherwise Wayland-only - not worth it for single- vs
+  # both-monitors greeter cosmetics. Living with primary-monitor-only for
+  # now; revisit if/when SDDM's Wayland greeter gets proper multi-output
+  # support.
   programs.silentSDDM = {
     enable = true;
     theme = "nord";
