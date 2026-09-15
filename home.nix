@@ -46,6 +46,47 @@ in
     };
   };
 
+  # awscli itself is intentionally not installed here (package = null) — it's
+  # pulled in per-project via each project's flake.nix devShell instead. This
+  # only manages the profile list in ~/.aws/config; ~/.aws/credentials (the
+  # long-lived "brian" keys) stays a hand-maintained, non-Nix file since the
+  # Nix store is world-readable.
+  programs.awscli = {
+    enable = true;
+    package = null;
+    settings = {
+      "profile brian".region = "us-east-2";
+      "profile fieldnotes" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::475727583260:role/fieldnotes-deploy";
+      };
+      "profile oracle" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::475727583260:role/oracle-deploy";
+      };
+      "profile admin" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::475727583260:role/aws-admin";
+      };
+      "profile terraform" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::475727583260:role/terraform";
+      };
+      "profile mothdeck" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::475727583260:role/mothdeck-role";
+      };
+      "profile sobriety" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::475727583260:role/sobriety-deploy";
+      };
+      "profile wardtalks" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::475727583260:role/wardtalks-deploy";
+      };
+    };
+  };
+
   home.packages = with pkgs; [
     cmus
     brightnessctl
