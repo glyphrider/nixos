@@ -24,8 +24,11 @@ let
       "_netdev"
     ];
   };
+
 in
 {
+  imports = [ inputs.silent-sddm.nixosModules.default ];
+
   nixpkgs.config.allowUnfree = true;
 
   boot.loader.systemd-boot.enable = false;
@@ -75,18 +78,23 @@ in
     withUWSM = true;
   };
 
-  services.displayManager.regreet = {
+  # Was regreet-under-cage, but cage (a single-app kiosk compositor) has no
+  # real monitor-mirroring mode - only "last" (one output) or "extend"
+  # (stitches every output into one virtual desktop), which made the
+  # greeter stretch across both of stealth's monitors instead of showing on
+  # each. SDDM's Wayland greeter draws a separate fullscreen window per
+  # connected output (see sddm's GreeterApp::addViewForScreen, which
+  # iterates every QGuiApplication screen), so both monitors show the same
+  # login prompt without any per-host monitor config needed. silentSDDM's
+  # bundled "nord" config gives us that look without pulling in KDE Plasma
+  # Frameworks the way most other Nord-styled SDDM themes do - it's plain
+  # Qt6/QML, so its dependency footprint is comparable to plain SDDM itself.
+  programs.silentSDDM = {
     enable = true;
-    font = {
-      name = "JetBrainsMono Nerd Font Mono";
-      size = 16;
-      package = pkgs.nerd-fonts.jetbrains-mono;
-    };
-    theme = {
-      name = "Colloid-Dark";
-      package = pkgs.colloid-gtk-theme;
-    };
+    theme = "nord";
+    profileIcons.brian = ./pictures/brian.jpg;
   };
+  services.displayManager.defaultSession = "hyprland-uwsm";
 
   # services.qemuGuest.enable = true;
   # services.spice-vdagentd.enable = true;
