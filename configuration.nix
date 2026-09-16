@@ -63,6 +63,12 @@ in
 
   services.xserver.videoDrivers = [ "amdgpu" ];
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+  };
+
   services.ollama = {
     enable = true;
     package = pkgs.ollama-vulkan;
