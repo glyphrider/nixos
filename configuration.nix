@@ -48,6 +48,7 @@ in
   boot.plymouth = {
     enable = true;
   };
+  boot.kernelPackages = pkgs.linuxPackages_latest; # linux-7.x
   boot.kernelParams = [ "quiet" "splash" ];
 
   # networking.hostName is set per-host in flake.nix's mkHost.
