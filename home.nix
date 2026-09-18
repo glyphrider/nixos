@@ -739,6 +739,15 @@ in
     recursive = true;
   };
 
+  # GUI equivalent of the `pyfa` shell alias above: launches on demand via `nix
+  # run` instead of being a permanently installed package.
+  xdg.desktopEntries.pyfa = {
+    name = "pyfa";
+    exec = "nix run nixpkgs#pyfa";
+    icon = "pyfa";
+    categories = [ "Game" ];
+  };
+
   # home.file with recursive=true symlinks every file individually (rather than
   # one symlink for the whole tree), including files/share/default_pfx - the
   # template wine-prefix Proton copies per-game. GE-Proton's copy_pfx() preserves
