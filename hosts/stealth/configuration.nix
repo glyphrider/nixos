@@ -5,12 +5,7 @@
 { ... }:
 
 {
-  # Edifier speakers live next to this desktop; see home.nix's
-  # edifier-bluetooth-autoconnect (hosts/stealth/home.nix) for the retry
-  # logic that actually connects them.
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-  };
-  services.blueman.enable = true;
+  # Bluetooth itself is enabled in the shared configuration.nix; the Edifier
+  # speakers next to this desktop are connected by
+  # edifier-bluetooth-autoconnect in hosts/stealth/home.nix.
 }

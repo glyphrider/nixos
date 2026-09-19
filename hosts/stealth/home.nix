@@ -5,16 +5,16 @@
 { pkgs, ... }:
 
 {
-  # The system-level edifier-bluetooth-autoconnect service (hosts/stealth/configuration.nix)
-  # connects the speakers as soon as the bluetooth adapter powers on at boot,
-  # which is before wireplumber (and its A2DP media endpoints) exist for this
-  # user session -- bluetoothctl connect either fails with "Protocol not
-  # available" or completes a bare ACL link that never turns into a working
-  # audio stream, which is what shows up as a connect-then-disconnect
-  # notification once the desktop appears. Re-run the same retry loop here,
-  # scoped to the user session and ordered after wireplumber, so it (re)tries
-  # once the A2DP endpoints actually exist -- including after wireplumber
-  # restarts, e.g. across a suspend/resume cycle.
+  # Connects the Edifier speakers from the user session rather than from a
+  # system service. A system-level service ran as soon as the bluetooth
+  # adapter powered on at boot, which is before wireplumber (and its A2DP
+  # media endpoints) exist for this user session -- bluetoothctl connect
+  # either failed with "Protocol not available" or completed a bare ACL link
+  # that never turned into a working audio stream, which showed up as a
+  # connect-then-disconnect notification once the desktop appeared. So this
+  # retry loop is scoped to the user session and ordered after wireplumber,
+  # so it (re)tries once the A2DP endpoints actually exist -- including after
+  # wireplumber restarts, e.g. across a suspend/resume cycle.
   systemd.user.services.edifier-bluetooth-autoconnect = {
     Unit = {
       Description = "Auto-connect Edifier bluetooth speakers (user session)";
