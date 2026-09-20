@@ -20,6 +20,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur.url = "github:nix-community/NUR";
+    # Not a flake itself — just the source tree; podsight.nix builds it into
+    # a package since it isn't in nixpkgs.
+    podsight = {
+      url = "github:arsin305/podsight";
+      flake = false;
+    };
     silent-sddm = {
       url = "github:uiriansan/SilentSDDM";
       inputs.nixpkgs.follows = "nixpkgs";

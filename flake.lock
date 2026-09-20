@@ -738,6 +738,22 @@
         "type": "github"
       }
     },
+    "podsight": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787954861,
+        "narHash": "sha256-4SaxUInkporj2549BTkFVMTreQZzNndKRxCIdMHspJ8=",
+        "owner": "arsin305",
+        "repo": "podsight",
+        "rev": "60c7a6cd18f2c711b46b98a3fe722a2e5a42c6a2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "arsin305",
+        "repo": "podsight",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -768,6 +784,7 @@
         "nixpkgs": "nixpkgs_2",
         "nur": "nur",
         "nvim-config": "nvim-config",
+        "podsight": "podsight",
         "silent-sddm": "silent-sddm"
       }
     },

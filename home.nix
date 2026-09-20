@@ -20,6 +20,11 @@ let
       tar -xzf $src -C $out --strip-components=1
     '';
   };
+
+  # Not in nixpkgs; built from source since it's not published for `nix run`
+  # the way pyfa is. See podsight.nix for why the ctypes X11 loading needs
+  # patching on NixOS.
+  podsight = pkgs.callPackage ./podsight.nix { src = inputs.podsight; };
 in
 {
   programs.git = {
@@ -92,6 +97,7 @@ in
     brightnessctl
     fuzzel
     tofi
+    podsight
     tree
     claude-code
     fastfetch
@@ -746,6 +752,20 @@ in
     exec = ''nix run "nixpkgs#pyfa"'';
     icon = "pyfa";
     categories = [ "Game" ];
+  };
+
+  # PodSight (the podsight package above) is installed permanently rather
+  # than run on demand, so this just points at its wrapped binary.
+  xdg.desktopEntries.podsight = {
+    name = "PodSight";
+    genericName = "EVE Client Previewer";
+    comment = "Live thumbnail previews for multiboxing EVE Online";
+    exec = "podsight";
+    icon = "podsight";
+    categories = [
+      "Game"
+      "Utility"
+    ];
   };
 
   # home.file with recursive=true symlinks every file individually (rather than
