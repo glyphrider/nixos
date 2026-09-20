@@ -743,7 +743,7 @@ in
   # run` instead of being a permanently installed package.
   xdg.desktopEntries.pyfa = {
     name = "pyfa";
-    exec = ''"nix run nixpkgs#pyfa"'';
+    exec = ''nix run "nixpkgs#pyfa"'';
     icon = "pyfa";
     categories = [ "Game" ];
   };
