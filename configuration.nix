@@ -162,6 +162,11 @@ in
 
   programs.zsh.enable = true;
 
+  # Nautilus (home.nix) needs gvfs for trash/removable-drive/network-location
+  # support and dconf to persist its GTK settings.
+  services.gvfs.enable = true;
+  programs.dconf.enable = true;
+
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;

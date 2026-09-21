@@ -99,6 +99,7 @@ in
     tofi
     podsight
     tree
+    nautilus
     claude-code
     fastfetch
     grim
@@ -130,6 +131,14 @@ in
       '';
     })
   ];
+
+  # TUI file manager; the shell wrapper (`y`) makes the shell cd to wherever
+  # you were when you quit yazi.
+  programs.yazi = {
+    enable = true;
+    enableZshIntegration = true;
+    shellWrapperName = "y";
+  };
 
   programs.firefox = {
     enable = true;
@@ -737,6 +746,7 @@ in
       "x-scheme-handler/https" = "google-chrome.desktop";
       "x-scheme-handler/about" = "google-chrome.desktop";
       "x-scheme-handler/unknown" = "google-chrome.desktop";
+      "inode/directory" = "org.gnome.Nautilus.desktop";
     };
   };
 
