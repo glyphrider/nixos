@@ -506,6 +506,16 @@ in
         match = { class = "^steam_app_8500$" },
         suppress_event = "fullscreen"
       })
+      -- Same waybar-behind-the-game issue as EVE above: World of Warcraft
+      -- (added as a non-Steam shortcut, hence the generated steam_app_*
+      -- class) just resizes itself to the monitor resolution instead of
+      -- requesting real compositor fullscreen. steam_app_2636875037 also
+      -- covers the Battle.net launcher window, so match the game's exact
+      -- title rather than fighting the launcher with excludes.
+      hl.window_rule({
+        match = { class = "^steam_app_2636875037$", title = "^World of Warcraft$" },
+        fullscreen = true
+      })
       for i = 1, 10 do
         local key = i % 10
         hl.bind("SUPER + ".. key, hl.dsp.focus({workspace = i}))
