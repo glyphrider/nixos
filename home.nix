@@ -507,13 +507,18 @@ in
         suppress_event = "fullscreen"
       })
       -- Same waybar-behind-the-game issue as EVE above: World of Warcraft
-      -- (added as a non-Steam shortcut, hence the generated steam_app_*
-      -- class) just resizes itself to the monitor resolution instead of
-      -- requesting real compositor fullscreen. steam_app_2636875037 also
-      -- covers the Battle.net launcher window, so match the game's exact
-      -- title rather than fighting the launcher with excludes.
+      -- (added as a non-Steam shortcut) just resizes itself to the monitor
+      -- resolution instead of requesting real compositor fullscreen.
+      -- Unlike EVE's steam_app_8500 (a real, fixed Steam AppID), a non-Steam
+      -- shortcut's numeric id is a hash generated locally when the shortcut
+      -- is created, so it isn't guaranteed to match across stealth/nixie/
+      -- beast (see pictures/steam_world_of_warcraft/README.md) -- match any
+      -- generated shortcut class instead of hardcoding one host's number.
+      -- That class also covers the Battle.net launcher window, so match
+      -- the game's exact title rather than fighting the launcher with
+      -- excludes.
       hl.window_rule({
-        match = { class = "^steam_app_2636875037$", title = "^World of Warcraft$" },
+        match = { class = "^steam_app_[0-9]+$", title = "^World of Warcraft$" },
         fullscreen = true
       })
       for i = 1, 10 do
