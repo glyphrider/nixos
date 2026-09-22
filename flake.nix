@@ -94,6 +94,17 @@
           hostname = "nixie";
           monitors = [ "eDP-1" ];
         };
+        # Two DP monitors are planned, but the real connector names (likely
+        # DP-1 + DP-2) aren't known until the machine is live. "*" is
+        # hyprpaper's documented wildcard (see WallpaperMatcher::isWildcard)
+        # and paints the wallpaper on every connected monitor regardless of
+        # name, so this doesn't need to be revisited once the real names are
+        # known -- only switch to explicit names if per-monitor wallpapers
+        # are ever wanted.
+        beast = mkHost {
+          hostname = "beast";
+          monitors = [ "*" ];
+        };
       };
     };
 }
