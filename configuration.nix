@@ -174,6 +174,12 @@ in
 
   services.openssh.enable = true;
 
+  # Enables virtualisation.containers, which generates /etc/containers/
+  # {policy.json,registries.conf,storage.conf}, and sets up the setuid
+  # newuidmap/newgidmap wrappers rootless podman needs. The podman binary
+  # itself still comes from each project's dev shell.
+  virtualisation.podman.enable = true;
+
   fileSystems."/media/movies" = nasMount "/mnt/tank/media/movies";
   fileSystems."/media/shows" = nasMount "/mnt/tank/media/shows";
   fileSystems."/media/music" = nasMount "/mnt/tank/media/music";
