@@ -146,7 +146,7 @@ in
 
   users.users.brian = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "input" "audio" "dialout" "networkmanager" ];
+    extraGroups = [ "wheel" "video" "input" "audio" "dialout" "networkmanager" "cdrom" ];
     shell = pkgs.zsh;
     linger = true;
     # Applied only if the account has no password yet, so `passwd` changes
