@@ -35,6 +35,7 @@ in
         email = "glyphrider@gmail.com";
         signingkey = "C080C200A93516B45B690469A1268F7E5E7EBFDF";
       };
+      init.defaultBranch = "main";
       commit = {
         gpgsign = true;
       };
