@@ -358,7 +358,7 @@ in
         {
           _args = [
             "SUPER + Return"
-            (lib.generators.mkLuaInline "hl.dsp.exec_cmd('kitty')")
+            (lib.generators.mkLuaInline "hl.dsp.exec_cmd('foot')")
           ];
         }
         {
