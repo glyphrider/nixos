@@ -90,6 +90,10 @@ in
         source_profile = "brian";
         role_arn = "arn:aws:iam::475727583260:role/wardtalks-deploy";
       };
+      "profile pi" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::475727583260:role/pi-deploy";
+      };
     };
   };
 
