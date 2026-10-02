@@ -94,6 +94,21 @@ in
         source_profile = "brian";
         role_arn = "arn:aws:iam::475727583260:role/pi-deploy";
       };
+      # Separate org member account (173535830743) for the astrology app.
+      # brian can't assume OrganizationAccountAccessRole directly, so this
+      # chains through admin (chained sessions are capped at 1 hour).
+      "profile astrology" = {
+        source_profile = "admin";
+        role_arn = "arn:aws:iam::173535830743:role/OrganizationAccountAccessRole";
+        region = "us-east-2";
+      };
+      # Day-to-day admin in the astrology account; created by
+      # astrology/infra/bootstrap, assumed directly by brian (no chaining).
+      "profile astrology-admin" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::173535830743:role/astrology-admin";
+        region = "us-east-2";
+      };
     };
   };
 
