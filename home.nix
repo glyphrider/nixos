@@ -109,6 +109,13 @@ in
         role_arn = "arn:aws:iam::173535830743:role/astrology-admin";
         region = "us-east-2";
       };
+      # Releases only (astrology's `nix run .#deploy`); created by
+      # astrology/infra/main.
+      "profile astrology-deploy" = {
+        source_profile = "brian";
+        role_arn = "arn:aws:iam::173535830743:role/astrology-deploy";
+        region = "us-east-2";
+      };
     };
   };
 
