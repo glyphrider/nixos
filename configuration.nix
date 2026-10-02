@@ -57,10 +57,25 @@ in
 
   time.timeZone = "US/Eastern";
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
+  # Mesa comes from the Hyprland flake's own nixpkgs, not ours. Hyprland is
+  # pinned (see flake.nix), so its nixpkgs -- and the glibc it links against --
+  # stays frozen while ours moves on. Once our mesa was built against a newer
+  # glibc, Hyprland aborted at startup loading it from /run/opengl-driver
+  # ("GLIBC_2.43 not found ... libgallium" / "CBackend::create() failed").
+  # Making Hyprland follow our nixpkgs instead doesn't build (the pinned
+  # Hyprland's hyprutils is too old for nixpkgs' hyprtoolkit). This is the
+  # Hyprland wiki's documented fix; drop it once the Hyprland pin is gone and
+  # its input follows nixpkgs.
+  hardware.graphics =
+    let
+      hyprPkgs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+    in
+    {
+      enable = true;
+      enable32Bit = true;
+      package = hyprPkgs.mesa;
+      package32 = hyprPkgs.pkgsi686Linux.mesa;
+    };
 
   services.xserver.videoDrivers = [ "amdgpu" ];
 
