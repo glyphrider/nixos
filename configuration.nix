@@ -128,6 +128,9 @@ in
     enable = true;
     theme = "nord";
     profileIcons.brian = ./pictures/brian.jpg;
+    # 12-hour clock instead of nord's default "hh:mm"; "AP" renders as
+    # "AM"/"PM" under the theme's en_US date locale.
+    settings."LockScreen.Clock".format = "h:mm AP";
   };
   services.displayManager.defaultSession = "hyprland-uwsm";
 
