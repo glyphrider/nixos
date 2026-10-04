@@ -134,6 +134,7 @@ in
     jq
     inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
     google-chrome
+    rpi-imager
     (writeShellApplication {
       name = "toggle-touchpad";
       runtimeInputs = [ jq ];
@@ -237,6 +238,10 @@ in
       "afetch" = "nix run nixpkgs#afetch";
       "nvtop" = "nix run nixpkgs#nvtopPackages.amd";
       "pyfa" = "nix run nixpkgs#pyfa";
+      # Imager 2.x writes to /dev/sdX directly, so it must run as root; its own
+      # "Install Authorization" fix assumes /usr/bin/pkexec and an
+      # /etc/polkit-1 policy dir, neither of which works on NixOS.
+      "rpi-imager" = "sudo --preserve-env=WAYLAND_DISPLAY,XDG_RUNTIME_DIR rpi-imager";
     };
     syntaxHighlighting = {
       enable = true;
@@ -690,6 +695,11 @@ in
       default-timeout = 5000;
     };
   };
+
+  # Hyprland, unlike GNOME/KDE, doesn't ship a polkit authentication agent, so
+  # without one any polkit prompt (e.g. udisks2 asking before rpi-imager writes
+  # to an SD card) has nowhere to appear and the action just fails.
+  services.hyprpolkitagent.enable = true;
 
   services.hypridle = {
     enable = true;
