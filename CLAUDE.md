@@ -30,6 +30,10 @@ Two deliberate version pins are working around upstream regressions rather than 
 - **`hyprland.url`** (`flake.nix`) — pinned to a pre-#16140 commit because that Hyprland change broke Waybar's `hyprland/workspaces` module. Unpin once Waybar supports address-based workspace identity (check for a Waybar release/changelog mentioning it, then bump and test on one host before rolling out to the rest).
 - **`linux-firmware`** (`hosts/nixie/configuration.nix` overlay) — pinned to tag `20260810` because `20260910` broke DMCUB firmware load on nixie's Rembrandt/Radeon 680M GPU. Unpin once nixpkgs' `linux-firmware` moves past this regression (check `pkgs.linux-firmware.version` after a `nix flake update`, or watch for a fix/revert upstream) — see @claude-system.md for the full incident.
 
+## Open investigations
+
+- **beast hard freezes** — read `claude-beast-freezes.md` when the user reports a freeze/crash on beast; it has the occurrence log, how to triage, and next steps. Append new occurrences there.
+
 ## General conventions
 
 - **Comments explain the "why," not the "what."** Several config blocks carry multi-line comments documenting a specific hardware/software quirk that motivated the setting. When editing near these, read the comment first — the setting is almost always compensating for a specific bug, not a stylistic choice — and keep/update the comment if the reasoning changes.
