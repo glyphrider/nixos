@@ -135,6 +135,7 @@ in
     inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
     google-chrome
     rpi-imager
+    discord
     (writeShellApplication {
       name = "toggle-touchpad";
       runtimeInputs = [ jq ];
