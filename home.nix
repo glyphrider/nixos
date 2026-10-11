@@ -363,6 +363,18 @@ in
     git = true;
   };
 
+  # `--cmd cd` makes zoxide define `cd` (and `cdi` for the interactive picker)
+  # itself rather than `z`/`zi`. A plain `alias cd=z` would lose zoxide's own
+  # cd completion.
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+    options = [
+      "--cmd"
+      "cd"
+    ];
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     package = null;
