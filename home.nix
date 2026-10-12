@@ -136,6 +136,7 @@ in
     google-chrome
     rpi-imager
     discord
+    unzip
     # OrcaSlicer 2.4.2 segfaults inside Mesa (tc_draw_user_indices_single)
     # when slicing or saving a project: it renders the plate thumbnail
     # without first making its own GL context current, so the draw runs with
