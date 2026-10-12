@@ -25,10 +25,10 @@ A NixOS flake configuration serving three hosts, `stealth` (desktop), `nixie` (l
 
 ## Pins to revisit
 
-Two deliberate version pins are working around upstream regressions rather than expressing a real preference for the old version. Check these periodically and drop the pin once the condition is met — don't carry them forward out of habit once they're no longer needed.
+These deliberate pins/overrides are working around upstream regressions rather than expressing a real preference. Check these periodically and drop each one once its condition is met — don't carry them forward out of habit once they're no longer needed.
 
 - **`hyprland.url`** (`flake.nix`) — pinned to a pre-#16140 commit because that Hyprland change broke Waybar's `hyprland/workspaces` module. Unpin once Waybar supports address-based workspace identity (check for a Waybar release/changelog mentioning it, then bump and test on one host before rolling out to the rest).
-- **`linux-firmware`** (`hosts/nixie/configuration.nix` overlay) — pinned to tag `20260810` because `20260910` broke DMCUB firmware load on nixie's Rembrandt/Radeon 680M GPU. Unpin once nixpkgs' `linux-firmware` moves past this regression (check `pkgs.linux-firmware.version` after a `nix flake update`, or watch for a fix/revert upstream) — see @claude-system.md for the full incident.
+- **`orca-slicer`** (`home.nix`, `overrideAttrs` in `home.packages`) — patched with upstream OrcaSlicer/OrcaSlicer#15873 because 2.4.2 segfaults inside Mesa when slicing or saving a project (it renders the plate thumbnail without making its GL context current). The override forces a from-source build on every host. Drop it once nixpkgs' `orca-slicer` is newer than 2.4.2 (check `pkgs.orca-slicer.version` after a `nix flake update`).
 
 ## Open investigations
 
