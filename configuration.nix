@@ -55,6 +55,16 @@ in
 
   networking.networkmanager.enable = true;
 
+  # mDNS so ".local" names resolve. nssmdns4 is what hooks it into nsswitch;
+  # without it avahi runs but glibc lookups still go straight to DNS. Resolve
+  # only -- publish is left off so the hosts don't advertise themselves on
+  # whatever network nixie happens to be on.
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
   time.timeZone = "US/Eastern";
 
   # Mesa comes from the Hyprland flake's own nixpkgs, not ours. Hyprland is
