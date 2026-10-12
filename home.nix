@@ -136,6 +136,7 @@ in
     google-chrome
     rpi-imager
     discord
+    orca-slicer
     (writeShellApplication {
       name = "toggle-touchpad";
       runtimeInputs = [ jq ];
