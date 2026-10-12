@@ -458,6 +458,32 @@ in
               ''hl.dsp.exec_cmd('mkdir -p ~/Pictures/screenshots && grim -g "$(slurp)" ~/Pictures/screenshots/$(date +%Y%m%d-%H%M%S).png')'')
           ];
         }
+        # locked: still works with hyprlock up. repeating: holding the key
+        # keeps stepping. -l 1 caps raise at 100% (wpctl otherwise overdrives).
+        {
+          _args = [
+            "XF86AudioRaiseVolume"
+            (lib.generators.mkLuaInline
+              "hl.dsp.exec_cmd('wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+')")
+            { locked = true; repeating = true; }
+          ];
+        }
+        {
+          _args = [
+            "XF86AudioLowerVolume"
+            (lib.generators.mkLuaInline
+              "hl.dsp.exec_cmd('wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-')")
+            { locked = true; repeating = true; }
+          ];
+        }
+        {
+          _args = [
+            "XF86AudioMute"
+            (lib.generators.mkLuaInline
+              "hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle')")
+            { locked = true; }
+          ];
+        }
 
 #        "mod + Return, exec, kitty"
 #        "mod + R, exec, fuzzel"
@@ -467,9 +493,6 @@ in
 #        "mod + SHIFT + X, exit"
 #        ",  XF86MonBrightnessUp, exec, brightnessctl set '+5%'"
 #        ",  XF86MonBrightnessDown, exec, brightnessctl set '5%-'"
-#        ",  XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-#        ",  XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-#        ",  XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 #        "mod CONTROL, XF86TouchpadToggle, exec, toggle-touchpad"
       ];
     };
