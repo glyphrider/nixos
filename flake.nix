@@ -5,12 +5,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Pinned before hyprwm/Hyprland#16140 ("workspace: refactor workspace
-    # handling"), which dropped the numeric workspace `id` from hyprctl's
-    # JSON in favor of `address`, breaking waybar's hyprland/workspaces
-    # module (it shows only "0"). Unpin once waybar supports the new
-    # address-based workspace identity.
-    hyprland.url = "github:hyprwm/Hyprland/34eb03bd8da01024596c367fba66485a8c9b8ca7";
+    # Follows our nixpkgs so Hyprland and the system mesa link against the
+    # same glibc (a frozen Hyprland nixpkgs made it abort loading a newer
+    # mesa from /run/opengl-driver).
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprpaper = {
       url = "github:hyprwm/hyprpaper";
       inputs.nixpkgs.follows = "nixpkgs";
