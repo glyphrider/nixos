@@ -5,21 +5,35 @@ let
     cp ${./wallpapers/nix-wallpaper-nineish-catppuccin-macchiato.png} $out
   '';
 
-  geProtonVersion = "11-5";
-  geProton = pkgs.stdenv.mkDerivation {
-    pname = "GE-Proton";
-    version = geProtonVersion;
-    src = pkgs.fetchurl {
-      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${geProtonVersion}/GE-Proton${geProtonVersion}-x86_64.tar.gz";
-      sha256 = "0xcaqdfzjscyl02qi9ij2fhcallrfn24vi4nkfs7s11wbyrc8hyy";
+  mkGEProton =
+    { version, sha256 }:
+    pkgs.stdenv.mkDerivation {
+      pname = "GE-Proton";
+      inherit version;
+      src = pkgs.fetchurl {
+        url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton${version}/GE-Proton${version}-x86_64.tar.gz";
+        inherit sha256;
+      };
+      dontConfigure = true;
+      dontBuild = true;
+      installPhase = ''
+        mkdir -p $out
+        tar -xzf $src -C $out --strip-components=1
+      '';
     };
-    dontConfigure = true;
-    dontBuild = true;
-    installPhase = ''
-      mkdir -p $out
-      tar -xzf $src -C $out --strip-components=1
-    '';
-  };
+
+  # Each version gets its own compatibilitytools.d entry, so Steam can pick
+  # between them per game.
+  geProtons = map mkGEProton [
+    {
+      version = "11-5";
+      sha256 = "0xcaqdfzjscyl02qi9ij2fhcallrfn24vi4nkfs7s11wbyrc8hyy";
+    }
+    {
+      version = "11-9";
+      sha256 = "1mmrxrffl9wakp4gvy99243d8i9ad8wzl14rvcf35v3h59ilmkxj";
+    }
+  ];
 
   # Not in nixpkgs; built from source since it's not published for `nix run`
   # the way pyfa is. See podsight.nix for why the ctypes X11 loading needs
@@ -896,16 +910,18 @@ in
   # pointing back into the read-only Nix store, and Proton crashes with EROFS
   # trying to write a fresh timestamp through it. Copy the tree instead so it's
   # real, writable files.
-  home.activation.installGEProton = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    geProtonDest="$HOME/.local/share/Steam/compatibilitytools.d/GE-Proton${geProtonVersion}-x86_64"
-    if [ ! -e "$geProtonDest/.nix-source" ] || [ "$(cat "$geProtonDest/.nix-source" 2>/dev/null)" != "${geProton}" ]; then
-      $DRY_RUN_CMD rm -rf "$geProtonDest"
-      $DRY_RUN_CMD mkdir -p "$geProtonDest"
-      $DRY_RUN_CMD cp -r --preserve=mode --no-preserve=ownership "${geProton}/." "$geProtonDest/"
-      $DRY_RUN_CMD chmod -R u+w "$geProtonDest"
-      $DRY_RUN_CMD echo -n "${geProton}" > "$geProtonDest/.nix-source"
-    fi
-  '';
+  home.activation.installGEProton = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+    lib.concatMapStrings (geProton: ''
+      geProtonDest="$HOME/.local/share/Steam/compatibilitytools.d/GE-Proton${geProton.version}-x86_64"
+      if [ ! -e "$geProtonDest/.nix-source" ] || [ "$(cat "$geProtonDest/.nix-source" 2>/dev/null)" != "${geProton}" ]; then
+        $DRY_RUN_CMD rm -rf "$geProtonDest"
+        $DRY_RUN_CMD mkdir -p "$geProtonDest"
+        $DRY_RUN_CMD cp -r --preserve=mode --no-preserve=ownership "${geProton}/." "$geProtonDest/"
+        $DRY_RUN_CMD chmod -R u+w "$geProtonDest"
+        $DRY_RUN_CMD echo -n "${geProton}" > "$geProtonDest/.nix-source"
+      fi
+    '') geProtons
+  );
 
   home.stateVersion = "25.11";
 }
