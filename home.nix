@@ -626,6 +626,17 @@ in
         match = { class = "^steam_app_[0-9]+$", title = "^World of Warcraft$" },
         fullscreen = true
       })
+      -- The Guild Wars 2 launcher (1284210 is GW2's real Steam AppID) is
+      -- an irregularly shaped window, but Hyprland draws its border,
+      -- rounding, shadow and blur around the full rectangle, leaving a
+      -- dark frosted box around the launcher art.
+      hl.window_rule({
+        match = { class = "^steam_app_1284210$" },
+        border_size = 0,
+        no_shadow = true,
+        rounding = 0,
+        no_blur = true
+      })
       for i = 1, 10 do
         local key = i % 10
         hl.bind("SUPER + ".. key, hl.dsp.focus({workspace = i}))
