@@ -333,7 +333,10 @@ in
       epkgs.marginalia
       epkgs.magit
       epkgs.nix-ts-mode
-      (epkgs.treesit-grammars.with-grammars (g: [ g.tree-sitter-nix ]))
+      (epkgs.treesit-grammars.with-grammars (g: [
+        g.tree-sitter-nix
+        g.tree-sitter-rust
+      ]))
     ];
     extraConfig = ''
       (load-theme 'adwaita-dark t)
@@ -364,6 +367,8 @@ in
             completion-category-overrides '((file (styles basic partial-completion))))
 
       (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-ts-mode))
+      ;; rust-ts-mode is built in; it just needs the grammar above.
+      (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
     '';
   };
 
