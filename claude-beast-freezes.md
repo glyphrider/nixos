@@ -1,6 +1,6 @@
-# beast: hard freezes (open investigation)
+# beast: hard freezes (resolved)
 
-Running log of full-system freezes on `beast`. Add each new occurrence below and update the "Current read" section as evidence accumulates. Nothing has been changed in the config in response yet.
+Log of full-system freezes and crashes on `beast`. **Resolved 2026-10-21: the cause was a bad RAM stick.** The user removed it, so beast now runs with 64 GB instead of 128 GB. Kept for the triage steps in case beast freezes again. If it does, add the occurrence below.
 
 ## How to investigate a new occurrence
 
@@ -36,18 +36,12 @@ Running log of full-system freezes on `beast`. Add each new occurrence below and
 - Load average was ~36 on 32 threads, with 118 GB of 125 GB RAM free, so memory pressure and OOM are ruled out. No MCE, EDAC, or kernel trap messages on this boot. The machine itself stayed up — no freeze or reboot.
 - Different processes crashing at random, only under all-core load and not when retried alone, is a classic symptom of RAM/CPU instability. This points toward the "RAM/CPU" side of the question below.
 
-## Current read
+## Resolution
 
-One freeze: a total hang with nothing written, during a game. On its own it looked like a GPU or PCIe-level hang (Navi 10 / RX 5700-class card, `1002:731f`). But the 2026-10-21 compiler crashes under full load are strong evidence of RAM/CPU instability, which could also explain the freeze. Treat RAM/CPU as the leading suspect until the checks below clear it.
-
-## Next steps for the RAM/CPU suspicion
-
-1. In the BIOS, check whether A-XMP is on, what memory speed it's set to, and whether PBO/Curve Optimizer is on. If XMP is on, disable it and rerun the build that failed. If the crashes stop, it's the memory overclock.
-2. Run `memtest86+` for at least one full pass — it is in the GRUB boot menu on all hosts (`boot.loader.grub.memtest86.enable`).
-3. Stress the CPU outside nix (`stress-ng` or `y-cruncher`, all cores) to see whether errors reproduce without the build system. Some 3950X chips have a single weak core that only fails under all-core load.
+A bad RAM stick caused both the 2026-10-05 freeze and the 2026-10-21 compiler crashes. The user removed it, and beast now runs with 64 GB. No config changes were needed. The Memtest86+ GRUB entry in `configuration.nix` was added during this investigation and stays.
 
 ## Next steps if it recurs
 
 - Before hitting reset, check whether the mouse cursor still moves and whether audio keeps playing. Then try Alt+SysRq+S/U/B (sync, remount read-only, reboot) — if that works, the kernel was alive. Needs `boot.kernel.sysctl."kernel.sysrq" = 1` (not yet set).
-- Note what was running each time. A pattern of freezes only in games points to the GPU. Freezes at idle or on the desktop point to RAM/CPU (try disabling EXPO, run `memtest86+`).
+- Note what was running each time. A pattern of freezes only in games points to the GPU. Freezes at idle, on the desktop, or random crashes under all-core load point to RAM/CPU. Run Memtest86+ from the GRUB menu, and suspect another stick first.
 - If it's frequent, set up `netconsole` or a serial console to capture final kernel messages that never reach disk.

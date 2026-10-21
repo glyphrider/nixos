@@ -151,28 +151,7 @@ in
     rpi-imager
     discord
     unzip
-    # OrcaSlicer 2.4.2 segfaults inside Mesa (tc_draw_user_indices_single)
-    # when slicing or saving a project: it renders the plate thumbnail
-    # without first making its own GL context current, so the draw runs with
-    # no index buffer bound. Fixed upstream in OrcaSlicer/OrcaSlicer#15873
-    # but not in a release yet. Drop this override once nixpkgs' orca-slicer
-    # is newer than 2.4.2.
-    (orca-slicer.overrideAttrs (old: {
-      patches = (old.patches or [ ]) ++ [
-        (fetchpatch {
-          name = "orca-thumbnail-gl-context.patch";
-          url = "https://github.com/OrcaSlicer/OrcaSlicer/commit/42009cf385381216d86b724c2c8532a497463b61.patch";
-          hash = "sha256-9GpG8S6PgaAylW/sI3mriRdZ+2sck381pVewN6xVNmE=";
-        })
-      ];
-      # Belt and braces for the same crash: with Mesa's glthread on, the bad
-      # draw is replayed later and was the variant hit on Slice. Set in the
-      # wrapper so the .desktop launcher and the terminal both get it;
-      # --set-default so it can still be overridden from the environment.
-      preFixup = (old.preFixup or "") + ''
-        gappsWrapperArgs+=(--set-default mesa_glthread false)
-      '';
-    }))
+    orca-slicer
     (writeShellApplication {
       name = "toggle-touchpad";
       runtimeInputs = [ jq ];
