@@ -28,7 +28,7 @@ A NixOS flake configuration serving three hosts, `stealth` (desktop), `nixie` (l
 
 These deliberate pins/overrides are working around upstream regressions rather than expressing a real preference. Check these periodically and drop each one once its condition is met — don't carry them forward out of habit once they're no longer needed.
 
-- **`orca-slicer`** (`home.nix`, `overrideAttrs` in `home.packages`) — patched with upstream OrcaSlicer/OrcaSlicer#15873 because 2.4.2 segfaults inside Mesa when slicing or saving a project (it renders the plate thumbnail without making its GL context current). The override forces a from-source build on every host. Drop it once nixpkgs' `orca-slicer` is newer than 2.4.2 (check `pkgs.orca-slicer.version` after a `nix flake update`).
+- **`orca-slicer`** (`home.nix`, `overrideAttrs` in `home.packages`) — patched with upstream OrcaSlicer/OrcaSlicer#15873 because 2.4.2 segfaults inside Mesa when slicing or saving a project (it renders the plate thumbnail without making its GL context current). The override forces a from-source build on every host. Drop it once nixpkgs' `orca-slicer` is newer than 2.4.2 (check `pkgs.orca-slicer.version` after a `nix flake update`). **Revisit next — this now blocks `nix flake update`:** nixpkgs `02c087f` (2026-10-20) still ships 2.4.2 but already carries `pr-15873-fix-slice-crash.patch` itself, so our `fetchpatch` of the same fix fails to apply and the build breaks. On the next nixpkgs bump, drop the `fetchpatch`. Then decide whether the `mesa_glthread false` wrapper flag is still worth a from-source build or the whole override can go.
 
 ## Open investigations
 

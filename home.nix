@@ -232,6 +232,10 @@ in
 
   gtk = {
     enable = true;
+    # libadwaita apps (Nautilus, etc.) ignore the theme name below and only
+    # follow the org.gnome.desktop.interface color-scheme preference, which
+    # this sets.
+    colorScheme = "dark";
     theme = {
       name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
