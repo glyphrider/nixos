@@ -37,6 +37,18 @@ in
     device = "nodev";
     efiSupport = true;
     gfxmodeEfi = "1920x1080";
+    # Boot-menu entry for checking RAM, added while chasing beast's
+    # instability (see claude-beast-freezes.md). Harmless to keep.
+    # Not using `memtest86.enable`: it installs memtest.bin to the ESP
+    # (/efi) but points its menu entry at GRUB's boot dir on btrfs
+    # (/@/boot), so GRUB can't find the file. Search for it instead.
+    extraFiles."memtest.bin" = pkgs.memtest86plus.efi;
+    extraEntries = ''
+      menuentry "Memtest86+" {
+        search --set=root --file /memtest.bin
+        linux /memtest.bin
+      }
+    '';
   };
   boot.loader.efi = {
     canTouchEfiVariables = true;
