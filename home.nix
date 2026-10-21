@@ -318,6 +318,8 @@ in
 
   programs.emacs = {
     enable = true;
+    # Native Wayland; plain `emacs` is the X11 build and runs under XWayland.
+    package = pkgs.emacs-pgtk;
     # ELPA's org shadows the copy bundled with Emacs (the wrapper puts package
     # dirs ahead of Emacs' own lisp/ on the load-path). It's pinned by the
     # flake, so bump it with `nix flake update`, not M-x package-install.
@@ -326,10 +328,51 @@ in
     extraPackages = epkgs: [
       epkgs.org
       epkgs.adwaita-dark-theme
+      epkgs.vertico
+      epkgs.orderless
+      epkgs.marginalia
+      epkgs.magit
+      epkgs.nix-ts-mode
+      (epkgs.treesit-grammars.with-grammars (g: [ g.tree-sitter-nix ]))
     ];
     extraConfig = ''
       (load-theme 'adwaita-dark t)
+      ;; Same font as kitty/foot. Via default-frame-alist rather than
+      ;; set-face-attribute so it also reaches emacsclient frames, which the
+      ;; daemon creates after init has run.
+      (add-to-list 'default-frame-alist '(font . "NotoSansM Nerd Font Mono-12"))
+
+      ;; Keep foo~ and #foo# out of the working tree.
+      (let ((dir (expand-file-name "emacs/" (or (getenv "XDG_CACHE_HOME") "~/.cache"))))
+        (make-directory (concat dir "auto-save/") t)
+        (setq backup-directory-alist `(("." . ,(concat dir "backup/")))
+              auto-save-file-name-transforms `((".*" ,(concat dir "auto-save/") t))
+              lock-file-name-transforms `((".*" ,(concat dir "auto-save/") t))))
+
+      (which-key-mode)
+      (savehist-mode)
+      (recentf-mode)
+      (save-place-mode)
+      (global-auto-revert-mode)
+      (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+      (setq display-line-numbers-type 'relative)
+      (setq-default indent-tabs-mode nil)
+
+      (vertico-mode)
+      (marginalia-mode)
+      (setq completion-styles '(orderless basic)
+            completion-category-overrides '((file (styles basic partial-completion))))
+
+      (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-ts-mode))
     '';
+  };
+
+  # emacsclient opens frames instantly; uwsm exports WAYLAND_DISPLAY to the
+  # systemd user session, which the pgtk daemon needs.
+  services.emacs = {
+    enable = true;
+    client.enable = true;
+    startWithUserSession = "graphical";
   };
 
   programs.tmux = {
