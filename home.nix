@@ -134,6 +134,7 @@ in
   };
 
   home.packages = with pkgs; [
+    emacs
     cmus
     brightnessctl
     fuzzel
