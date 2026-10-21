@@ -134,7 +134,6 @@ in
   };
 
   home.packages = with pkgs; [
-    emacs
     cmus
     brightnessctl
     fuzzel
@@ -272,7 +271,6 @@ in
     shellAliases = {
       "hyprland" = "uwsm start hyprland-uwsm.desktop";
       "htop" = "nix run nixpkgs#htop";
-      "emacs" = "nix run nixpkgs#emacs-nox";
       "fetch" = "nix run nixpkgs#fetch";
       "afetch" = "nix run nixpkgs#afetch";
       "nvtop" = "nix run nixpkgs#nvtopPackages.amd";
@@ -315,6 +313,22 @@ in
       set clipboard=unnamedplus
       syntax on
       nnoremap <Esc> :noh<CR>
+    '';
+  };
+
+  programs.emacs = {
+    enable = true;
+    # ELPA's org shadows the copy bundled with Emacs (the wrapper puts package
+    # dirs ahead of Emacs' own lisp/ on the load-path). It's pinned by the
+    # flake, so bump it with `nix flake update`, not M-x package-install.
+    # adwaita-dark matches the GTK theme (gtk.theme); Emacs' built-in
+    # adwaita is light-only.
+    extraPackages = epkgs: [
+      epkgs.org
+      epkgs.adwaita-dark-theme
+    ];
+    extraConfig = ''
+      (load-theme 'adwaita-dark t)
     '';
   };
 
