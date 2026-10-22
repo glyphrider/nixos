@@ -26,10 +26,6 @@ let
   # between them per game.
   geProtons = map mkGEProton [
     {
-      version = "11-5";
-      sha256 = "0xcaqdfzjscyl02qi9ij2fhcallrfn24vi4nkfs7s11wbyrc8hyy";
-    }
-    {
       version = "11-9";
       sha256 = "1mmrxrffl9wakp4gvy99243d8i9ad8wzl14rvcf35v3h59ilmkxj";
     }
