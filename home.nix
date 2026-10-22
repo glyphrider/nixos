@@ -963,6 +963,16 @@ in
   # pointing back into the read-only Nix store, and Proton crashes with EROFS
   # trying to write a fresh timestamp through it. Copy the tree instead so it's
   # real, writable files.
+  #
+  # The copied wine builtin DLLs are then made read-only, though: prefixes
+  # symlink their system32/syswow64 DLLs back into the tool's files/lib/wine,
+  # and Proton's prefix update writes with open(dst, 'wb'), which follows
+  # those symlinks. With two GE-Protons installed, Steam's startup tool check
+  # runs both concurrently on the shared compatdata/0 prefix, and 11-5 wrote
+  # its DLLs through 11-9's symlinks into 11-9's own tool dir, breaking every
+  # game on 11-9. Proton only ever reads from files/lib/wine itself. This runs
+  # on every activation (not just on a fresh copy) so existing installs pick
+  # it up too; only files are read-only, so the rm -rf above still works.
   home.activation.installGEProton = lib.hm.dag.entryAfter [ "writeBoundary" ] (
     lib.concatMapStrings (geProton: ''
       geProtonDest="$HOME/.local/share/Steam/compatibilitytools.d/GE-Proton${geProton.version}-x86_64"
@@ -973,6 +983,7 @@ in
         $DRY_RUN_CMD chmod -R u+w "$geProtonDest"
         $DRY_RUN_CMD echo -n "${geProton}" > "$geProtonDest/.nix-source"
       fi
+      $DRY_RUN_CMD find "$geProtonDest/files/lib/wine" -type f -perm /222 -exec chmod a-w {} +
     '') geProtons
   );
 
