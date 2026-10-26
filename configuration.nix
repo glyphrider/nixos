@@ -55,7 +55,6 @@ in
     efiSysMountPoint = "/efi";
   };
 
-  boot.initrd.systemd.enable = true;
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.plymouth = {
     enable = true;
