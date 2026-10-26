@@ -32,9 +32,7 @@ These deliberate pins/overrides are working around upstream regressions rather t
 
 ## Open investigations
 
-- (none currently)
-
-If beast freezes or crashes again, read `claude-beast-freezes.md` first. It's the closed log of the 2026-10 investigation (cause: a bad RAM stick) and lists the triage steps.
+- beast stability: random GCC internal compiler errors under all-core nix builds came back on 2026-10-26, after the bad RAM stick was removed. Read `claude-beast-freezes.md` first if beast freezes or crashes again. It's the full log, with the triage steps and next things to try (A-XMP off first).
 
 ## General conventions
 

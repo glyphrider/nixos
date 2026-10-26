@@ -1,6 +1,6 @@
-# beast: hard freezes (resolved)
+# beast: hard freezes and crashes (reopened)
 
-Log of full-system freezes and crashes on `beast`. **Resolved 2026-10-21: the cause was a bad RAM stick.** The user removed it, so beast now runs with 64 GB instead of 128 GB. Kept for the triage steps in case beast freezes again. If it does, add the occurrence below.
+Log of full-system freezes and crashes on `beast`. **Thought resolved 2026-10-21:** a bad RAM stick was found and removed, so beast now runs with 64 GB instead of 128 GB. **Reopened 2026-10-26:** the same random GCC crashes came back with only the remaining sticks installed (see below). Add any new occurrence below.
 
 ## How to investigate a new occurrence
 
@@ -36,12 +36,22 @@ Log of full-system freezes and crashes on `beast`. **Resolved 2026-10-21: the ca
 - Load average was ~36 on 32 threads, with 118 GB of 125 GB RAM free, so memory pressure and OOM are ruled out. No MCE, EDAC, or kernel trap messages on this boot. The machine itself stayed up — no freeze or reboot.
 - Different processes crashing at random, only under all-core load and not when retried alone, is a classic symptom of RAM/CPU instability. This points toward the "RAM/CPU" side of the question below.
 
-## Resolution
+### 2026-10-26 — GCC crashes again, after the bad stick was removed
 
-A bad RAM stick caused both the 2026-10-05 freeze and the 2026-10-21 compiler crashes. The user removed it, and beast now runs with 64 GB. No config changes were needed. The Memtest86+ GRUB entry in `configuration.nix` was added during this investigation and stays.
+- Full `nixos-rebuild build` of beast after a `nix flake update` to nixpkgs `3ec6363`. `cc1plus` (GCC 16.2.0) crashed with `internal compiler error: Segmentation fault` in two separate build attempts: first in `hyprgraphics` (`tests/arg.cpp`, from the Hyprland input), then in `glaze-9.0.0` (`fuzzing/repe_registry.cpp`).
+- `hyprgraphics` built cleanly twice when rebuilt on its own. Not deterministic, same as on 2026-10-21.
+- Both backtraces end in GCC's garbage collector (`ggc_set_mark` ← `gt_ggc_mx_lang_tree_node`, recursing deeply). The same crash site twice weakly suggests a real GCC 16.2 bug rather than random bit flips. But the GC walks large amounts of memory, so it's also where a flipped bit would most likely show up. The 2026-10-21 backtraces weren't recorded, so they can't be compared.
+- No coredumps today, and no MCE/EDAC/kernel trap messages on this boot. Stack limit is 8192 KB (default).
+- The remaining RAM has passed Memtest86+ (per the user). Memtest doesn't load the CPU's memory controller the way an all-core build does, and the A-XMP/PBO settings after the BIOS update still haven't been checked.
 
-## Next steps if it recurs
+## Earlier conclusion (2026-10-21)
 
+A bad RAM stick was blamed for both the 2026-10-05 freeze and the 2026-10-21 compiler crashes. The user removed it, and beast now runs with 64 GB. No config changes were needed. The Memtest86+ GRUB entry in `configuration.nix` was added during this investigation and stays. The 2026-10-26 recurrence shows the removed stick was at most part of the cause.
+
+## Next steps
+
+- Check the BIOS memory settings (MSI Click BIOS: EZ Mode top-left A-XMP toggle, or Advanced/F7 → OC → Extreme Memory Profile (A-XMP)). Write down the current DRAM speed and voltage, then set A-XMP to Disabled (JEDEC speed) and redo a full-parallelism build. If the GCC crashes stop, it's the memory overclock or the memory controller, not a bad stick. Then try a middle speed.
+- If crashes continue at stock settings, test the remaining sticks one at a time under a heavy parallel build (e.g. repeated `nix build --rebuild` of a large C++ package), not just Memtest86+.
 - Before hitting reset, check whether the mouse cursor still moves and whether audio keeps playing. Then try Alt+SysRq+S/U/B (sync, remount read-only, reboot) — if that works, the kernel was alive. Needs `boot.kernel.sysctl."kernel.sysrq" = 1` (not yet set).
 - Note what was running each time. A pattern of freezes only in games points to the GPU. Freezes at idle, on the desktop, or random crashes under all-core load point to RAM/CPU. Run Memtest86+ from the GRUB menu, and suspect another stick first.
 - If it's frequent, set up `netconsole` or a serial console to capture final kernel messages that never reach disk.
