@@ -148,6 +148,7 @@ in
     discord
     unzip
     orca-slicer
+    pwvucontrol
     (writeShellApplication {
       name = "toggle-touchpad";
       runtimeInputs = [ jq ];
@@ -622,6 +623,14 @@ in
         match = { class = "^chrome-nngceckbapebfimnlniiiahkandclblb-Default$" },
         float = true
       })
+      -- pwvucontrol is opened from waybar's volume module as a quick
+      -- mixer popup, not a window to tile into the workspace.
+      hl.window_rule({
+        match = { class = "^com.saivert.pwvucontrol$" },
+        float = true,
+        size = "900 600",
+        move = "(monitor_w/2)-450 (monitor_h/2)-300"
+      })
       -- Proton/Steam games often just resize themselves to the monitor
       -- resolution instead of requesting real compositor fullscreen, so
       -- waybar (a top-layer surface) still draws over the top of them.
@@ -755,6 +764,7 @@ in
       wireplumber = {
         format = "{volume}% {icon}";
         format-muted = "󰝟";
+        on-click = "${pkgs.pwvucontrol}/bin/pwvucontrol";
         format-icons = [ "󰕿" "󰖀" "󰕾" ];
       };
       battery = {
