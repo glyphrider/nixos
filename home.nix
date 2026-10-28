@@ -511,6 +511,12 @@ in
         }
         {
           _args = [
+            "SUPER + Q"
+            (lib.generators.mkLuaInline "hl.dsp.window.close()")
+          ];
+        }
+        {
+          _args = [
             "SUPER + mouse:272"
             (lib.generators.mkLuaInline "hl.dsp.window.drag()")
             { mouse = true; }
