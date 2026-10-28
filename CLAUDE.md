@@ -28,7 +28,7 @@ A NixOS flake configuration serving three hosts, `stealth` (desktop), `nixie` (l
 
 These deliberate pins/overrides are working around upstream regressions rather than expressing a real preference. Check these periodically and drop each one once its condition is met — don't carry them forward out of habit once they're no longer needed.
 
-- (none currently)
+- `home.nix`: hyprpaper is overridden with `pcre = null` because upstream's `nix/default.nix` still depends on the `pcre` that nixpkgs removed. Drop the override once hyprwm/hyprpaper#385 (pcre → pcre2) is merged and the `hyprpaper` input is updated.
 
 ## Open investigations
 
