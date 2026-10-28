@@ -29,6 +29,10 @@ let
       version = "11-9";
       sha256 = "1mmrxrffl9wakp4gvy99243d8i9ad8wzl14rvcf35v3h59ilmkxj";
     }
+    {
+      version = "11-11";
+      sha256 = "1hd35kzhilwqb2crh33i2nz5r4pv7dzxv2pspfl9lw55mmn9i1da";
+    }
   ];
 
   # Not in nixpkgs; built from source since it's not published for `nix run`
