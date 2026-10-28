@@ -156,7 +156,6 @@ in
     unzip
     orca-slicer
     pwvucontrol
-    networkmanagerapplet
     (writeShellApplication {
       name = "toggle-touchpad";
       runtimeInputs = [ jq ];
@@ -781,6 +780,9 @@ in
         format-ethernet = "{ifname} 󰈀";
         format-disconnected = "󰤭";
         tooltip-format-wifi = "{signalStrength}% {frequency}MHz";
+        # Referenced by store path rather than added to home.packages: the
+        # package ships an XDG autostart entry for nm-applet, which uwsm
+        # would then start on login, and the tray applet isn't wanted.
         on-click = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
       };
       wireplumber = {
