@@ -149,6 +149,7 @@ in
     unzip
     orca-slicer
     pwvucontrol
+    networkmanagerapplet
     (writeShellApplication {
       name = "toggle-touchpad";
       runtimeInputs = [ jq ];
@@ -631,6 +632,13 @@ in
         size = "900 600",
         move = "(monitor_w/2)-450 (monitor_h/2)-300"
       })
+      -- Same for nm-connection-editor, opened from waybar's network module.
+      hl.window_rule({
+        match = { class = "^nm-connection-editor$" },
+        float = true,
+        size = "900 600",
+        move = "(monitor_w/2)-450 (monitor_h/2)-300"
+      })
       -- Proton/Steam games often just resize themselves to the monitor
       -- resolution instead of requesting real compositor fullscreen, so
       -- waybar (a top-layer surface) still draws over the top of them.
@@ -760,6 +768,7 @@ in
         format-ethernet = "{ifname} 󰈀";
         format-disconnected = "󰤭";
         tooltip-format-wifi = "{signalStrength}% {frequency}MHz";
+        on-click = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
       };
       wireplumber = {
         format = "{volume}% {icon}";
