@@ -467,7 +467,6 @@ in
           "hyprland.start" (lib.generators.mkLuaInline ''
             function()
               hl.exec_cmd("hyprpaper")
-              hl.exec_cmd("waybar")
               hl.exec_cmd("mako")
             end
           '')
@@ -689,6 +688,10 @@ in
 
   programs.waybar = {
     enable = true;
+    # Started by graphical-session.target (via uwsm) instead of Hyprland's
+    # exec, so it can be ordered after wireplumber — see the unit override
+    # below.
+    systemd.enable = true;
     style = ''
       * {
         font-family: "Noto Sans Nerd Font";
@@ -761,6 +764,23 @@ in
         states = { critical = 15; };
       };
     }];
+  };
+
+  # waybar's wireplumber module reads the default sink once at startup and
+  # doesn't pick it up if it appears later — started ahead of wireplumber
+  # (as happened on beast), it sat at 0% until restarted. wireplumber is
+  # Type=simple, so After= alone only orders against its fork, not against it
+  # choosing a default sink; ExecStartPre polls for that (bounded, and `-` so
+  # a host with no sink still gets a bar).
+  systemd.user.services.waybar = {
+    Unit = {
+      After = [ "wireplumber.service" ];
+      Wants = [ "wireplumber.service" ];
+    };
+    Service.ExecStartPre = "-${pkgs.writeShellScript "waybar-wait-for-sink" ''
+      ${pkgs.coreutils}/bin/timeout 15 ${pkgs.bash}/bin/sh -c \
+        'until ${pkgs.wireplumber}/bin/wpctl inspect @DEFAULT_AUDIO_SINK@ >/dev/null 2>&1; do sleep 0.5; done'
+    ''}";
   };
 
   programs.hyprlock = {
