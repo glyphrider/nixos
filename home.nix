@@ -146,10 +146,7 @@ in
     grim
     slurp
     jq
-    # Upstream's nix/default.nix still lists the long-dead pcre (alongside
-    # pcre2), which nixpkgs removed, so evaluation throws. Drop it until
-    # hyprwm/hyprpaper#385 lands.
-    (inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper.override { pcre = null; })
+    inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
     google-chrome
     rpi-imager
     discord
