@@ -31,6 +31,10 @@
       url = "github:uiriansan/SilentSDDM";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     {
@@ -64,6 +68,8 @@
             ./hosts/${hostname}/configuration.nix
             { networking.hostName = hostname; }
             { nixpkgs.overlays = [ nur.overlays.default ]; }
+            inputs.sops-nix.nixosModules.sops
+            ./sops.nix
             home-manager.nixosModules.default
             {
               home-manager = {

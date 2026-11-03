@@ -1,0 +1,15 @@
+# After changing this list, re-encrypt with: sops updatekeys secrets/ssh.yaml
+keys:
+  # Touch-only, with no PIN: activation has no terminal to ask for one (see sops.nix).
+  - &yubikey age1yubikey1qgxmss0rlj0uxekhghzpsn6uyk35w0ndfc4m3w7xxz8yns4nnsqu7ku6v7t
+  # Kept offline, so losing the YubiKey doesn't also lose the ability to edit.
+  - &backup age1gnsa8u2fv2mcjuq0nrprfvfjsf723w0aw2ltcswzz9vljzrw0y4s5nfxv7
+  # Shared by all hosts, in /var/lib/sops-nix/key.txt. Decrypts at boot.
+  - &machines age1ue2f9clydgy3k3525qqfhkymqd5mafr5rzsvkf33amwz84qv6c8quuspsf
+creation_rules:
+  - path_regex: secrets/.*\.yaml$
+    key_groups:
+      - age:
+          - *yubikey
+          - *backup
+          - *machines

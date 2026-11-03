@@ -140,6 +140,10 @@ in
     tofi
     podsight
     tree
+    # Editing secrets/ssh.yaml; the plugin has to be on PATH for sops to find it.
+    sops
+    age
+    age-plugin-yubikey
     nautilus
     claude-code
     fastfetch
@@ -1006,6 +1010,23 @@ in
       "Utility"
     ];
   };
+
+  # Private keys are decrypted to /run/secrets by sops-nix (configuration.nix).
+  # Linking them from here rather than via sops-nix's own `path` option means
+  # ~/.ssh is created by home-manager as brian on a fresh install, not by root.
+  home.file = lib.mergeAttrsList (
+    map
+      (name: {
+        ".ssh/${name}".source = config.lib.file.mkOutOfStoreSymlink "/run/secrets/ssh/${name}";
+        ".ssh/${name}.pub".source = ./ssh + "/${name}.pub";
+      })
+      [
+        "id_ed25519"
+        "id_ed25519_sk"
+        "id_rsa"
+        "id_rsa2048"
+      ]
+  );
 
   # home.file with recursive=true symlinks every file individually (rather than
   # one symlink for the whole tree), including files/share/default_pfx - the
