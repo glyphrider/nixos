@@ -1011,7 +1011,7 @@ in
     ];
   };
 
-  # Private keys are decrypted to /run/secrets by sops-nix (configuration.nix).
+  # Private keys are decrypted to /run/secrets by sops-nix (sops.nix).
   # Linking them from here rather than via sops-nix's own `path` option means
   # ~/.ssh is created by home-manager as brian on a fresh install, not by root.
   home.file = lib.mergeAttrsList (

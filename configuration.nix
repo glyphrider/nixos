@@ -177,7 +177,7 @@ in
     # made after first boot survive future rebuilds instead of being reset.
     initialHashedPassword = "$6$X47Tox8O5qyaLLqF$oSedhd3d4BXr4XnnMdYYtaLrNNC0KlK4Jk5YWWv6cvis5.GDaJ1tZa8hJPQdyAQwuBl9EFGoAzt1Kkoxx/1lS.";
     # The RSA keys are deliberately absent: they're still installed (see
-    # sops.secrets below) to reach old systems that may trust them, but
+    # sops.nix) to reach old systems that may trust them, but
     # nothing should be able to log in to these hosts with them.
     openssh.authorizedKeys.keyFiles = [
       ./ssh/id_ed25519.pub
