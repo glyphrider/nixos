@@ -31,6 +31,11 @@ in
         })
       // {
         machine_key = { };
+        aws_credentials = {
+          sopsFile = ./secrets/aws.yaml;
+          owner = "brian";
+          mode = "0400";
+        };
       };
   };
 

@@ -69,8 +69,8 @@ in
   # awscli itself is intentionally not installed here (package = null) — it's
   # pulled in per-project via each project's flake.nix devShell instead. This
   # only manages the profile list in ~/.aws/config; ~/.aws/credentials (the
-  # long-lived "brian" keys) stays a hand-maintained, non-Nix file since the
-  # Nix store is world-readable.
+  # long-lived "brian" keys) is decrypted by sops-nix and linked in below, since
+  # the `credentials` option here would put them in the world-readable Nix store.
   programs.awscli = {
     enable = true;
     package = null;
@@ -1026,7 +1026,9 @@ in
         "id_rsa"
         "id_rsa2048"
       ]
-  );
+      ) // {
+        ".aws/credentials".source = config.lib.file.mkOutOfStoreSymlink "/run/secrets/aws_credentials";
+      };
 
   # home.file with recursive=true symlinks every file individually (rather than
   # one symlink for the whole tree), including files/share/default_pfx - the
