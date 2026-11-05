@@ -1,4 +1,4 @@
-# After changing this list, re-encrypt with: sops updatekeys secrets/ssh.yaml
+# After changing this list, re-encrypt with: sops updatekeys secrets/ssh.yaml && sops updatekeys secrets/aws.yaml
 keys:
   # Touch-only, with no PIN: activation has no terminal to ask for one (see sops.nix).
   - &yubikey age1yubikey1qgxmss0rlj0uxekhghzpsn6uyk35w0ndfc4m3w7xxz8yns4nnsqu7ku6v7t
