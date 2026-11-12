@@ -76,6 +76,12 @@ in
     openFirewall = true;
   };
 
+  # Trust the home CA ("Marisol CA", expires 2033) that signs the LAN
+  # services' certificates, e.g. https://jellyfin.marisol.home. Without it,
+  # curl and other tools reject those certs as self-signed. This adds the CA
+  # to the system bundle (/etc/ssl/certs/ca-certificates.crt).
+  security.pki.certificateFiles = [ ./certs/marisol-ca.pem ];
+
   time.timeZone = "US/Eastern";
 
   hardware.graphics = {
